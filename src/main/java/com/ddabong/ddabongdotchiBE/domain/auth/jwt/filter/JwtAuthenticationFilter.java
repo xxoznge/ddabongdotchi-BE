@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ddabong.ddabongdotchiBE.domain.auth.dto.LoginRequestDto;
+import com.ddabong.ddabongdotchiBE.domain.auth.dto.LoginUserRequest;
 import com.ddabong.ddabongdotchiBE.domain.auth.jwt.dto.JwtDto;
 import com.ddabong.ddabongdotchiBE.domain.auth.jwt.userdetails.PrincipalDetails;
 import com.ddabong.ddabongdotchiBE.domain.auth.jwt.util.HttpResponseUtil;
@@ -40,26 +40,26 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		log.info("JwtAuthenticationFilter : 로그인 시도 중");
 
 		ObjectMapper om = new ObjectMapper();
-		LoginRequestDto loginRequestDto;
+		LoginUserRequest loginUserRequest;
 		try {
-			loginRequestDto = om.readValue(request.getInputStream(), LoginRequestDto.class);
+			loginUserRequest = om.readValue(request.getInputStream(), LoginUserRequest.class);
 		} catch (IOException e) {
 			throw new AuthenticationServiceException("Error of request body.");
 		}
 
 		UsernamePasswordAuthenticationToken authenticationToken =
 			new UsernamePasswordAuthenticationToken(
-				loginRequestDto.username(),
-				loginRequestDto.password());
+				loginUserRequest.username(),
+				loginUserRequest.password());
 
 		return authenticationManager.authenticate(authenticationToken);
 	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-		Authentication authResult) throws IOException{
+		Authentication authResult) throws IOException {
 
-		PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+		PrincipalDetails principalDetails = (PrincipalDetails)authResult.getPrincipal();
 
 		log.info("[*] Login Success! - Login with " + principalDetails.getUsername());
 		JwtDto jwtDto = new JwtDto(
@@ -74,7 +74,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	}
 
 	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+		AuthenticationException failed)
 		throws IOException {
 
 		String errorMessage;

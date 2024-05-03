@@ -1,6 +1,5 @@
 package com.ddabong.ddabongdotchiBE.domain.auth.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -21,6 +21,8 @@ import com.ddabong.ddabongdotchiBE.domain.auth.jwt.util.HttpResponseUtil;
 import com.ddabong.ddabongdotchiBE.domain.auth.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.auth.jwt.util.RedisUtil;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class SecurityConfig {
 	private final JwtUtil jwtUtil;
 	private final RedisUtil redisUtil;
 
-	private final String[] allowedUrls = {"/", "/reissue", "/login"};
+	private final String[] allowedUrls = {"/", "/api/v1/user/reissue", "/api/v1/user/login"};
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -38,7 +40,7 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public BCryptPasswordEncoder encodePwd() {
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
@@ -71,9 +73,9 @@ public class SecurityConfig {
 		http.
 			authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
-					.requestMatchers("/user/**").authenticated()
-					.requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGE")
-					.requestMatchers("/admin/**").hasRole("ADMIN")
+					.requestMatchers("/api/v1/user/**").authenticated()
+					.requestMatchers("/api/v1/manager/**").hasAnyRole("ADMIN", "MANAGE")
+					.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 					.requestMatchers(allowedUrls).permitAll()
 					.anyRequest().permitAll()
 			);
@@ -82,7 +84,7 @@ public class SecurityConfig {
 		// Jwt Filter (with login)
 		JwtAuthenticationFilter loginFilter = new JwtAuthenticationFilter(
 			authenticationManager(authenticationConfiguration), jwtUtil);
-		loginFilter.setFilterProcessesUrl("/login");
+		loginFilter.setFilterProcessesUrl("/api/v1/user/login");
 
 		http
 			.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
@@ -92,7 +94,7 @@ public class SecurityConfig {
 		// Logout Filter
 		http
 			.logout(logout -> logout
-				.logoutUrl("/logout")
+				.logoutUrl("/api/v1/user/logout")
 				.addLogoutHandler(new JwtLogoutFilter(redisUtil, jwtUtil))
 				.logoutSuccessHandler((request, response, authentication) ->
 					HttpResponseUtil.setSuccessResponse(

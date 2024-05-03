@@ -1,37 +1,32 @@
 package com.ddabong.ddabongdotchiBE.domain.auth.entity;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.hibernate.annotations.CreationTimestamp;
+import com.ddabong.ddabongdotchiBE.global.config.BaseEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 @Entity
-public class User {
+@Table(name = "users")
+public class User extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private String username;
 	private String password;
-	private String email;
-	private String role; //ROLE_USER, ROLE_ADMIN
-
-	@CreationTimestamp
-	private Timestamp createDate;
-
-	public List<String> getRoleList() {
-		if(!this.role.isEmpty()) {
-			return Arrays.asList(this.role.split(","));
-		}
-		return new ArrayList<>();
-	}
+	private String nickname;
+	private String description;
+	private RoleType roleType;
 }

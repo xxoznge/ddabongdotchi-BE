@@ -30,7 +30,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 		Optional<User> userEntity = userRepository.findByUsername(username);
 		if (userEntity.isPresent()) {
 			User user = userEntity.get();
-			return new PrincipalDetails(user.getUsername(),user.getPassword(), user.getRole());
+			return new PrincipalDetails(user.getUsername(), user.getPassword(), user.getRoleType().toString());
 		}
 		throw new UsernameNotFoundException("User not found with username: " + username);
 	}

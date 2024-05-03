@@ -2,8 +2,6 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle
 
 *-secret.yml
-**/src/main/generated/
-**/firebase/*.json
 
 # Mac os
 *.Ds_Store

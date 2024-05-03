@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import com.ddabong.ddabongdotchiBE.domain.auth.exception.ApiResponse;
+import com.ddabong.ddabongdotchiBE.global.common.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletResponse;
