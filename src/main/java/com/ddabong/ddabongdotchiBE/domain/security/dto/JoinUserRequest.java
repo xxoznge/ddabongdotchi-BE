@@ -2,6 +2,7 @@ package com.ddabong.ddabongdotchiBE.domain.security.dto;
 
 import com.ddabong.ddabongdotchiBE.domain.security.entity.RoleType;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.security.enums.UserStatus;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,6 +25,7 @@ public record JoinUserRequest(
 			.nickname(nickname)
 			.description(description)
 			.roleType(RoleType.USER)
+			.userStatus(UserStatus.ACTIVE)
 			.build();
 	}
 }

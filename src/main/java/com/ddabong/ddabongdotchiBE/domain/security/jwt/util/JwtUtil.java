@@ -1,5 +1,7 @@
 package com.ddabong.ddabongdotchiBE.domain.security.jwt.util;
 
+import static com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.TokenErrorCode.*;
+
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
@@ -9,7 +11,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.SecurityCustomException;
@@ -17,7 +18,11 @@ import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.TokenErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.userdetails.CustomUserDetails;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.userdetails.CustomUserDetailsService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -114,13 +119,48 @@ public class JwtUtil {
 		return refreshToken;
 	}
 
-	public JwtDto reissueToken(String refreshToken) throws SignatureException {
-		UserDetails userDetails = customUserDetailsService.loadUserByUsername(getUsername(refreshToken));
+	public JwtDto reissueToken(String refreshToken) {
+		try {
+			validateRefreshToken(refreshToken);
+			log.info("[*] Valid RefreshToken");
 
-		return new JwtDto(
-			createJwtAccessToken((CustomUserDetails)userDetails),
-			createJwtRefreshToken((CustomUserDetails)userDetails)
-		);
+			CustomUserDetails tempCustomUserDetails = new CustomUserDetails(
+				getEmail(refreshToken),
+				null,
+				getAuthority(refreshToken)
+			);
+
+			return new JwtDto(
+				createJwtAccessToken(tempCustomUserDetails),
+				createJwtRefreshToken(tempCustomUserDetails)
+			);
+		} catch (IllegalArgumentException iae) {
+			throw new SecurityCustomException(INVALID_TOKEN, iae);
+		} catch (ExpiredJwtException eje) {
+			throw new SecurityCustomException(TOKEN_EXPIRED, eje);
+		}
+	}
+
+	private Claims getClaims(String token) {
+		try {
+			return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+		} catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
+			throw new SecurityCustomException(INVALID_TOKEN, e);
+		} catch (SignatureException e) {
+			throw new SecurityCustomException(TOKEN_SIGNATURE_ERROR, e);
+		}
+	}
+
+	public Long getId(String token) {
+		return Long.parseLong(getClaims(token).getSubject());
+	}
+
+	public String getEmail(String token) {
+		return getClaims(token).get("email", String.class);
+	}
+
+	public String getAuthority(String token) {
+		return getClaims(token).get("auth", String.class);
 	}
 
 	public String resolveAccessToken(HttpServletRequest request) {

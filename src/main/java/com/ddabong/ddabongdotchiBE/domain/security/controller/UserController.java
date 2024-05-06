@@ -1,5 +1,6 @@
 package com.ddabong.ddabongdotchiBE.domain.security.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,12 +13,9 @@ import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
-import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.SecurityCustomException;
-import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.TokenErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.security.service.UserService;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +28,6 @@ import umc.springumc.security.jwt.dto.JwtDto;
 public class UserController {
 
 	private final UserService userService;
-
 	private final JwtUtil jwtUtil;
 
 	@PostMapping("/join")
@@ -40,20 +37,17 @@ public class UserController {
 
 	@GetMapping("/reissue")
 	public ApiResponse<JwtDto> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
-		try {
-			jwtUtil.validateRefreshToken(refreshToken);
-			return ApiResponse.onSuccess(
-				jwtUtil.reissueToken(refreshToken)
-			);
-		} catch (ExpiredJwtException eje) {
-			throw new SecurityCustomException(TokenErrorCode.TOKEN_EXPIRED, eje);
-		} catch (IllegalArgumentException iae) {
-			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN, iae);
-		}
+		return ApiResponse.onSuccess(jwtUtil.reissueToken(refreshToken));
 	}
 
 	@GetMapping("/test")
-	public ApiResponse<String> register(@UserResolver User user) {
+	public ApiResponse<String> test(@UserResolver User user) {
 		return ApiResponse.onSuccess(user.getUsername());
+	}
+
+	@DeleteMapping("/me")
+	public ApiResponse<String> deleteUser(@UserResolver User user) {
+		userService.deactivate(user.getUsername());
+		return ApiResponse.onSuccess("삭제 성공");
 	}
 }
