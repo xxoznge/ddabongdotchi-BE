@@ -21,4 +21,12 @@ public class UserQueryService {
 		return userRepository.findByUsername(username)
 			.orElseThrow(() -> new UserExceptionHandler(UserErrorCode.USER_NOT_FOUND));
 	}
+
+	public Boolean checkUsername(String username) {
+		return userRepository.existsByUsername(username);
+	}
+
+	public Boolean checkNickname(String nickname) {
+		return userRepository.existsByNickname(nickname);
+	}
 }
