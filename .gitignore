@@ -62,6 +62,6 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-**/data/mysql/
+**/data/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle
