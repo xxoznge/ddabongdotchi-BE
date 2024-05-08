@@ -30,7 +30,7 @@ public class User extends BaseEntity {
 	@Column(name = "user_id")
 	private Long id;
 
-	@Column(name = "user_username", nullable = false)
+	@Column(name = "user_username", nullable = false, unique = true)
 	private String username;
 
 	@Column(name = "user_password", nullable = false)
@@ -52,6 +52,10 @@ public class User extends BaseEntity {
 
 	public void deactivate() {
 		this.userStatus = UserStatus.INACTIVE;
+	}
+
+	public void update(String password) {
+		this.password = password == null ? this.password : password;
 	}
 }
 

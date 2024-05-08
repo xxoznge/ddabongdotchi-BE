@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdatePasswordRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.security.repository.user.UserRepository;
@@ -31,8 +32,16 @@ public class UserService {
 	}
 
 	public void deactivate(String username) {
-		User user = userRepository.findByUsername(username)
+		final User user = userRepository.findByUsername(username)
 			.orElseThrow(() -> new UserExceptionHandler(USER_NOT_FOUND));
 		user.deactivate();
+	}
+
+	public void updatePassword(String username, UpdatePasswordRequest request) {
+		final User user = userRepository.findByUsername(username)
+			.orElseThrow(() -> new UserExceptionHandler(USER_NOT_FOUND));
+
+		String encodedNewPassword = passwordEncoder.encode(request.password());
+		user.update(encodedNewPassword);
 	}
 }

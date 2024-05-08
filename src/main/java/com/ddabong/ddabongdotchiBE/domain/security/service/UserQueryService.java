@@ -30,4 +30,12 @@ public class UserQueryService {
 
 		return UserDetailGetResponse.from(user);
 	}
+
+	public Boolean checkUsername(String username) {
+		return userRepository.existsByUsername(username);
+	}
+
+	public Boolean checkNickname(String nickname) {
+		return userRepository.existsByNickname(nickname);
+	}
 }
