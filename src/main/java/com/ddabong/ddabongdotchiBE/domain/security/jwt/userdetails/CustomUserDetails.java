@@ -10,12 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
 
-	private final String email;
+	private final String username;
 	private final String password;
 	private final String isStaff;
 
-	public CustomUserDetails(String email, String password, String isStaff) {
-		this.email = email;
+	public CustomUserDetails(String username, String password, String isStaff) {
+		this.username = username;
 		this.password = password;
 		this.isStaff = isStaff;
 	}
@@ -42,7 +42,7 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return email;
+		return username;
 	}
 
 	@Override

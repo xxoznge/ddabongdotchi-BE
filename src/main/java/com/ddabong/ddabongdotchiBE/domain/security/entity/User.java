@@ -53,6 +53,10 @@ public class User extends BaseEntity {
 	public void deactivate() {
 		this.userStatus = UserStatus.INACTIVE;
 	}
+
+	public void update(String password) {
+		this.password = password == null ? this.password : password;
+	}
 }
 
 
