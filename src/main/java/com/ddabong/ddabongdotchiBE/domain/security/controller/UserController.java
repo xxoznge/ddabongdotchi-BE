@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
@@ -57,7 +56,7 @@ public class UserController {
 	@PatchMapping(value = "/password")
 	public ApiResponse<String> updatePassword(
 		@UserResolver User user,
-		@RequestPart @Valid UpdatePasswordRequest request
+		@RequestBody @Valid UpdatePasswordRequest request
 	) {
 		userService.updatePassword(user.getUsername(), request);
 		return ApiResponse.onSuccess("비밀번호 변경 성공");
