@@ -30,7 +30,7 @@ public class User extends BaseEntity {
 	@Column(name = "user_id")
 	private Long id;
 
-	@Column(name = "user_username", nullable = false)
+	@Column(name = "user_username", nullable = false, unique = true)
 	private String username;
 
 	@Column(name = "user_password", nullable = false)
