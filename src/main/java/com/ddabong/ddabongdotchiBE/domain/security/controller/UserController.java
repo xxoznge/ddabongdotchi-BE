@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
@@ -14,6 +15,7 @@ import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
+import com.ddabong.ddabongdotchiBE.domain.security.service.UserQueryService;
 import com.ddabong.ddabongdotchiBE.domain.security.service.UserService;
 
 import jakarta.validation.Valid;
@@ -28,6 +30,7 @@ import umc.springumc.security.jwt.dto.JwtDto;
 public class UserController {
 
 	private final UserService userService;
+	private final UserQueryService userQueryService;
 	private final JwtUtil jwtUtil;
 
 	@PostMapping("/join")
@@ -50,4 +53,15 @@ public class UserController {
 		userService.deactivate(user.getUsername());
 		return ApiResponse.onSuccess("삭제 성공");
 	}
+
+	@GetMapping("/username")
+	public ApiResponse<Boolean> checkUsername(@RequestParam String username) {
+		return ApiResponse.onSuccess(userQueryService.checkUsername(username));
+	}
+
+	@GetMapping("/nickname")
+	public ApiResponse<Boolean> checkNickname(@RequestParam String nickname) {
+		return ApiResponse.onSuccess(userQueryService.checkNickname(nickname));
+	}
+
 }
