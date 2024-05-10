@@ -15,6 +15,8 @@ import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdatePasswordRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.UserDetailGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
@@ -79,6 +81,13 @@ public class UserController {
 	@GetMapping("/me")
 	public ApiResponse<UserDetailGetResponse> getMyUser(@UserResolver User user) {
 		return ApiResponse.onSuccess(UserDetailGetResponse.from(user));
+	}
+
+	@PatchMapping(value = "/me")
+	public ApiResponse<UpdateUserResponse> updateMyUser(
+		@UserResolver User user,
+		@RequestBody @Valid UpdateUserRequest request) {
+		return ApiResponse.onSuccess(userService.updateMyUser(user.getUsername(), request));
 	}
 
 }

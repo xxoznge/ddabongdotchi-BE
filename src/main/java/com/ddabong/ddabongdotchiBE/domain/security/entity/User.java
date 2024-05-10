@@ -54,8 +54,13 @@ public class User extends BaseEntity {
 		this.userStatus = UserStatus.INACTIVE;
 	}
 
-	public void update(String password) {
+	public void updatePassword(String password) {
 		this.password = password == null ? this.password : password;
+	}
+
+	public void update(String nickname, String description) {
+		this.nickname = nickname == null ? this.nickname : nickname;
+		this.description = description == null ? this.description : description;
 	}
 }
 
