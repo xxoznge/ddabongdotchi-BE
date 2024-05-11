@@ -1,6 +1,6 @@
 package com.ddabong.ddabongdotchiBE.domain.security.dto;
 
-public record UpdateUserRequest(
+public record UserUpdateRequest(
 	String nickname,
 	String description
 ) {

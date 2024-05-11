@@ -6,7 +6,7 @@ import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record CreateCardRequest(
+public record CardCreateRequest(
 	@NotBlank(message = "[ERROR] 카드 제목 입력은 필수 입니다.")
 	String title,
 

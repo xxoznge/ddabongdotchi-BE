@@ -2,7 +2,7 @@ package com.ddabong.ddabongdotchiBE.domain.card.dto.response;
 
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 
-public record CreateCardResponse(
+public record CardCreateResponse(
 	String username,
 	Long id,
 	String title,
@@ -11,8 +11,8 @@ public record CreateCardResponse(
 	String type
 ) {
 
-	public static CreateCardResponse from(Card card) {
-		return new CreateCardResponse(
+	public static CardCreateResponse from(Card card) {
+		return new CardCreateResponse(
 			card.getCardUser().getUsername(),
 			card.getId(),
 			card.getTitle(),

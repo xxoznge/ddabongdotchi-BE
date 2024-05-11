@@ -6,11 +6,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdatePasswordRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.PasswordUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.security.repository.UserRepository;
@@ -25,10 +25,10 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public JoinUserResponse join(JoinUserRequest request) {
+	public UserJoinResponse join(UserJoinRequest request) {
 		final User user = userRepository.save(
 			request.toEntity(passwordEncoder.encode(request.password())));
-		return JoinUserResponse.from(user);
+		return UserJoinResponse.from(user);
 	}
 
 	public void deactivate(String username) {
@@ -38,7 +38,7 @@ public class UserService {
 		user.deactivate();
 	}
 
-	public void updatePassword(String username, UpdatePasswordRequest request) {
+	public void updatePassword(String username, PasswordUpdateRequest request) {
 		final User user = userRepository.findByUsername(username)
 			.orElseThrow(() -> new UserExceptionHandler(USER_NOT_FOUND));
 
@@ -46,12 +46,12 @@ public class UserService {
 		user.updatePassword(encodedNewPassword);
 	}
 
-	public UpdateUserResponse updateMyUser(String username, UpdateUserRequest request) {
+	public UserUpdateResponse updateMyUser(String username, UserUpdateRequest request) {
 		final User user = userRepository.findByUsername(username)
 			.orElseThrow(() -> new UserExceptionHandler(USER_NOT_FOUND));
 
 		user.update(request.nickname(), request.description());
-		return UpdateUserResponse.from(user);
+		return UserUpdateResponse.from(user);
 	}
 
 }

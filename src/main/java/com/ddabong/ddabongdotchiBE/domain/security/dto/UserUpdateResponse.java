@@ -5,16 +5,13 @@ import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import lombok.Builder;
 
 @Builder
-public record JoinUserResponse(
-	Long id,
+public record UserUpdateResponse(
 	String username,
 	String nickname,
 	String description
 ) {
-
-	public static JoinUserResponse from(User user) {
-		return JoinUserResponse.builder()
-			.id(user.getId())
+	public static UserUpdateResponse from(User user) {
+		return UserUpdateResponse.builder()
 			.username(user.getUsername())
 			.nickname(user.getNickname())
 			.description(user.getDescription())
