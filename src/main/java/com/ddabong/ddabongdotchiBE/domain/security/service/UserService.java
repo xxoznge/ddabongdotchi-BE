@@ -6,11 +6,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ddabong.ddabongdotchiBE.domain.security.dto.PasswordUpdateRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.request.PasswordUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserJoinRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserJoinResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.security.repository.UserRepository;

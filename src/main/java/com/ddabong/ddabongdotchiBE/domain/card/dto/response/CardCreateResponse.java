@@ -13,7 +13,7 @@ public record CardCreateResponse(
 
 	public static CardCreateResponse from(Card card) {
 		return new CardCreateResponse(
-			card.getCardUser().getUsername(),
+			card.getUser().getUsername(),
 			card.getId(),
 			card.getTitle(),
 			card.getMood(),

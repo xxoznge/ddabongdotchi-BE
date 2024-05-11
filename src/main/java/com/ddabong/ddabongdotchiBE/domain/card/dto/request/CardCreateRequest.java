@@ -28,7 +28,7 @@ public record CardCreateRequest(
 			.mood(mood)
 			.content(content)
 			.type(FortuneType.valueOf(type))
-			.cardUser(cardUser)
+			.user(cardUser)
 			.build();
 	}
 }

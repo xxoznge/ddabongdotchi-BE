@@ -1,5 +1,9 @@
 package com.ddabong.ddabongdotchiBE.domain.security.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.global.BaseEntity;
 import com.ddabong.ddabongdotchiBE.domain.security.enums.UserStatus;
 
@@ -7,9 +11,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -49,6 +55,10 @@ public class User extends BaseEntity {
 	@Column(name = "user_status", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private UserStatus userStatus;
+
+	@Builder.Default
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Card> cards = new ArrayList<>();
 
 	public void deactivate() {
 		this.userStatus = UserStatus.INACTIVE;

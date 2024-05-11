@@ -1,4 +1,4 @@
-package com.ddabong.ddabongdotchiBE.domain.security.dto;
+package com.ddabong.ddabongdotchiBE.domain.security.dto.response;
 
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 

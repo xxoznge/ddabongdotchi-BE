@@ -49,6 +49,6 @@ public class Card extends BaseEntity {
 	private FortuneType type;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "card_user_name", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private User cardUser;
+	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	private User user;
 }

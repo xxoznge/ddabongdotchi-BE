@@ -19,8 +19,8 @@ public record CardDetailGetResponse(
 	public static CardDetailGetResponse from(Card card) {
 		return CardDetailGetResponse.builder()
 			.id(card.getId())
-			.username(card.getCardUser().getUsername())
-			.nickname(card.getCardUser().getNickname())
+			.username(card.getUser().getUsername())
+			.nickname(card.getUser().getNickname())
 			.title(card.getTitle())
 			.mood(card.getMood())
 			.content(card.getContent())

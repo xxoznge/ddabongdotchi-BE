@@ -1,5 +1,7 @@
 package com.ddabong.ddabongdotchiBE.domain.security.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.PasswordUpdateRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserDetailGetResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.request.PasswordUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserJoinRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.MyCardGetResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserDetailGetResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserJoinResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.security.service.UserQueryService;
@@ -79,8 +82,8 @@ public class UserController {
 	}
 
 	@GetMapping("/me")
-	public ApiResponse<UserDetailGetResponse> getMyUser(@UserResolver User user) {
-		return ApiResponse.onSuccess(UserDetailGetResponse.from(user));
+	public ApiResponse<UserDetailGetResponse> getMyUser(@UserResolver User authUser) {
+		return ApiResponse.onSuccess(UserDetailGetResponse.from(authUser));
 	}
 
 	@PatchMapping(value = "/me")
@@ -88,6 +91,11 @@ public class UserController {
 		@UserResolver User user,
 		@RequestBody @Valid UserUpdateRequest request) {
 		return ApiResponse.onSuccess(userService.updateMyUser(user.getUsername(), request));
+	}
+
+	@GetMapping("/me/card")
+	public ApiResponse<List<MyCardGetResponse>> getMyCards(@UserResolver User user) {
+		return ApiResponse.onSuccess(UserQueryService.getMyCard(user));
 	}
 
 }

@@ -33,7 +33,7 @@ public class CardService {
 	public void deleteCard(User user, Long cardId) {
 		final Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND));
-		if (!card.getCardUser().getUsername().equals(user.getUsername())) {
+		if (!card.getUser().getUsername().equals(user.getUsername())) {
 			throw new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND);
 		}
 		cardRepository.delete(card);
