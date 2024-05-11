@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.request.CardCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardCreateResponse;
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
+import com.ddabong.ddabongdotchiBE.domain.card.exception.CardErrorCode;
+import com.ddabong.ddabongdotchiBE.domain.card.exception.CardExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.card.repository.CardRepository;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 
@@ -26,5 +28,14 @@ public class CardService {
 	) {
 		final Card card = cardRepository.save(request.toEntity(authUser));
 		return CardCreateResponse.from(card);
+	}
+
+	public void deleteCard(User user, Long cardId) {
+		final Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND));
+		if (!card.getCardUser().getUsername().equals(user.getUsername())) {
+			throw new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND);
+		}
+		cardRepository.delete(card);
 	}
 }
