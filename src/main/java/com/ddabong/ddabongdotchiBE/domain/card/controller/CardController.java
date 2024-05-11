@@ -1,5 +1,6 @@
 package com.ddabong.ddabongdotchiBE.domain.card.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,4 +44,13 @@ public class CardController {
 	) {
 		return ApiResponse.onSuccess(cardQueryService.getCardDetail(cardId));
 	}
+
+	@DeleteMapping("/{cardId}")
+	public ApiResponse<String> deleteCard(
+		@UserResolver User authUser,
+		@PathVariable Long cardId) {
+		cardService.deleteCard(authUser, cardId);
+		return ApiResponse.onSuccess("삭제 성공");
+	}
+
 }
