@@ -13,7 +13,7 @@ import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
-import com.ddabong.ddabongdotchiBE.domain.security.repository.user.UserRepository;
+import com.ddabong.ddabongdotchiBE.domain.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,11 +26,9 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	public JoinUserResponse join(JoinUserRequest request) {
-
-		String encodedPw = passwordEncoder.encode(request.password());
-		User newUser = request.toEntity(encodedPw);
-
-		return JoinUserResponse.from(userRepository.save(newUser));
+		final User user = userRepository.save(
+			request.toEntity(passwordEncoder.encode(request.password())));
+		return JoinUserResponse.from(user);
 	}
 
 	public void deactivate(String username) {

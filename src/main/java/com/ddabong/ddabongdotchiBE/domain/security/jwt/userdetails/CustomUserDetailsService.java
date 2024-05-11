@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.exception.UserErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
-import com.ddabong.ddabongdotchiBE.domain.security.repository.user.UserRepository;
+import com.ddabong.ddabongdotchiBE.domain.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
