@@ -31,7 +31,7 @@ public class CardController {
 	private final CardQueryService cardQueryService;
 
 	@PostMapping()
-	public ApiResponse<CardCreateResponse> createPropose(
+	public ApiResponse<CardCreateResponse> createCard(
 		@UserResolver User authUser,
 		@RequestBody @Valid CardCreateRequest request
 	) {
