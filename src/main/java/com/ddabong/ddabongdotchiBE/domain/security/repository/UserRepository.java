@@ -1,4 +1,4 @@
-package com.ddabong.ddabongdotchiBE.domain.security.repository.user;
+package com.ddabong.ddabongdotchiBE.domain.security.repository;
 
 import java.util.Optional;
 

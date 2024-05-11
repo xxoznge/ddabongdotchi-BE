@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.UserDetailGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
-import com.ddabong.ddabongdotchiBE.domain.security.repository.user.UserRepository;
+import com.ddabong.ddabongdotchiBE.domain.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
