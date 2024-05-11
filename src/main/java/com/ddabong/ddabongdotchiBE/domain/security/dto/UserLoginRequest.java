@@ -1,6 +1,6 @@
 package com.ddabong.ddabongdotchiBE.domain.security.dto;
 
-public record LoginUserRequest(
+public record UserLoginRequest(
 	String username,
 	String password
 ) {

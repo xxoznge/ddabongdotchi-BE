@@ -3,8 +3,8 @@ package com.ddabong.ddabongdotchiBE.domain.card.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ddabong.ddabongdotchiBE.domain.card.dto.request.CreateCardRequest;
-import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CreateCardResponse;
+import com.ddabong.ddabongdotchiBE.domain.card.dto.request.CardCreateRequest;
+import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardCreateResponse;
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.card.repository.CardRepository;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
@@ -20,11 +20,11 @@ public class CardService {
 
 	private final CardRepository cardRepository;
 
-	public CreateCardResponse createCard(
+	public CardCreateResponse createCard(
 		User authUser,
-		CreateCardRequest request
+		CardCreateRequest request
 	) {
 		final Card card = cardRepository.save(request.toEntity(authUser));
-		return CreateCardResponse.from(card);
+		return CardCreateResponse.from(card);
 	}
 }

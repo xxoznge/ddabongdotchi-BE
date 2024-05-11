@@ -7,7 +7,7 @@ import com.ddabong.ddabongdotchiBE.domain.security.enums.UserStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record JoinUserRequest(
+public record UserJoinRequest(
 	@NotBlank(message = "[ERROR] 아이디 입력은 필수 입니다.")
 	String username,
 	@NotBlank(message = "[ERROR] 비밀번호 입력은 필수 입니다.")

@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.JoinUserResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdatePasswordRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserRequest;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.UpdateUserResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.PasswordUpdateRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.UserDetailGetResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserJoinResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.security.service.UserQueryService;
@@ -39,7 +39,7 @@ public class UserController {
 	private final JwtUtil jwtUtil;
 
 	@PostMapping("/join")
-	public ApiResponse<JoinUserResponse> join(@Valid @RequestBody JoinUserRequest request) {
+	public ApiResponse<UserJoinResponse> join(@Valid @RequestBody UserJoinRequest request) {
 		return ApiResponse.onSuccess(userService.join(request));
 	}
 
@@ -62,7 +62,7 @@ public class UserController {
 	@PatchMapping(value = "/password")
 	public ApiResponse<String> updatePassword(
 		@UserResolver User user,
-		@RequestBody @Valid UpdatePasswordRequest request
+		@RequestBody @Valid PasswordUpdateRequest request
 	) {
 		userService.updatePassword(user.getUsername(), request);
 		return ApiResponse.onSuccess("비밀번호 변경 성공");
@@ -84,9 +84,9 @@ public class UserController {
 	}
 
 	@PatchMapping(value = "/me")
-	public ApiResponse<UpdateUserResponse> updateMyUser(
+	public ApiResponse<UserUpdateResponse> updateMyUser(
 		@UserResolver User user,
-		@RequestBody @Valid UpdateUserRequest request) {
+		@RequestBody @Valid UserUpdateRequest request) {
 		return ApiResponse.onSuccess(userService.updateMyUser(user.getUsername(), request));
 	}
 
