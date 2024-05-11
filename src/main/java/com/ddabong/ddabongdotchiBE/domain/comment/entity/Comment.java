@@ -1,13 +1,12 @@
-package com.ddabong.ddabongdotchiBE.domain.card.entity;
+package com.ddabong.ddabongdotchiBE.domain.comment.entity;
 
+import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.global.BaseEntity;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -27,35 +26,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Entity
-@Table(name = "card")
-public class Card extends BaseEntity {
+@Table(name = "comment")
+public class Comment extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "card_id")
+	@Column(name = "comment_id")
 	private Long id;
-
-	@Column(name = "card_title", nullable = false)
-	private String title;
-
-	@Column(name = "card_mood", nullable = false)
-	private String mood;
-
-	@Column(name = "card_content", nullable = false)
-	private String content;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "card_type", nullable = false)
-	private FortuneType type;
-
-	@Column(name = "comment_count", nullable = false)
-	private long commentCount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private User user;
 
-	public void increaseSaveCount() {
-		this.commentCount++;
-	}
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "card_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	private Card card;
 }
