@@ -1,8 +1,13 @@
 package com.ddabong.ddabongdotchiBE.domain.card.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ddabong.ddabongdotchiBE.domain.comment.entity.Comment;
 import com.ddabong.ddabongdotchiBE.domain.global.BaseEntity;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -15,6 +20,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -54,6 +60,10 @@ public class Card extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private User user;
+
+	@Builder.Default
+	@OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Comment> comments = new ArrayList<>();
 
 	public void increaseSaveCount() {
 		this.commentCount++;

@@ -20,8 +20,7 @@ public class CardQueryService {
 
 	private final CardRepository cardRepository;
 
-	public CardDetailGetResponse getCardDetail(
-		Long cardId) {
+	public CardDetailGetResponse getCardDetail(Long cardId) {
 		final Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND));
 
