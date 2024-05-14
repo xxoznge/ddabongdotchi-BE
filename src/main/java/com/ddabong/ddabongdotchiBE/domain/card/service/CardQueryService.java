@@ -1,9 +1,12 @@
 package com.ddabong.ddabongdotchiBE.domain.card.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardDetailGetResponse;
+import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardSummaryGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.card.exception.CardErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.card.exception.CardExceptionHandler;
@@ -25,5 +28,19 @@ public class CardQueryService {
 			.orElseThrow(() -> new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND));
 
 		return CardDetailGetResponse.from(card);
+	}
+
+	public List<CardSummaryGetResponse> getRecentCard() {
+		return cardRepository.findAllByOrderByCreatedAtDesc()
+			.stream()
+			.map(card -> CardSummaryGetResponse.from(card))
+			.toList();
+	}
+
+	public List<CardSummaryGetResponse> getPopularCard() {
+		return cardRepository.findAllByOrderByCommentCountDescCreatedAtDesc()
+			.stream()
+			.map(card -> CardSummaryGetResponse.from(card))
+			.toList();
 	}
 }

@@ -1,5 +1,7 @@
 package com.ddabong.ddabongdotchiBE.domain.card.dto.response;
 
+import java.time.LocalDateTime;
+
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.card.entity.FortuneType;
 
@@ -10,7 +12,9 @@ public record CardSummaryGetResponse(
 	Long id,
 	String nickname,
 	String title,
-	FortuneType type
+	FortuneType type,
+	Long commentCount,
+	LocalDateTime createdAt
 ) {
 
 	public static CardSummaryGetResponse from(Card card) {
@@ -19,6 +23,8 @@ public record CardSummaryGetResponse(
 			.nickname(card.getUser().getNickname())
 			.title(card.getTitle())
 			.type(card.getType())
+			.commentCount(card.getCommentCount())
+			.createdAt(card.getCreatedAt())
 			.build();
 	}
 }

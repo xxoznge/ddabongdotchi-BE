@@ -34,6 +34,7 @@ public class CommentService {
 			.orElseThrow(() -> new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND));
 
 		final Comment comment = commentRepository.save(request.toEntity(authUser, card));
+		card.increaseCount();
 		return CommentCreateResponse.from(comment);
 	}
 }

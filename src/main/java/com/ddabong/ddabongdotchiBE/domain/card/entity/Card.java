@@ -65,7 +65,7 @@ public class Card extends BaseEntity {
 	@OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Comment> comments = new ArrayList<>();
 
-	public void increaseSaveCount() {
+	public void increaseCount() {
 		this.commentCount++;
 	}
 }
