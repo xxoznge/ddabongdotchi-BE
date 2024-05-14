@@ -17,6 +17,7 @@ import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardCreateResponse;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardDetailGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardSummaryGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.card.entity.CardStatus;
+import com.ddabong.ddabongdotchiBE.domain.card.entity.FortuneType;
 import com.ddabong.ddabongdotchiBE.domain.card.service.CardQueryService;
 import com.ddabong.ddabongdotchiBE.domain.card.service.CardService;
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
@@ -69,6 +70,22 @@ public class CardController {
 
 		if (sortStatus == CardStatus.POPULAR) {
 			return ApiResponse.onSuccess(cardQueryService.getPopularCard());
+		}
+		return ApiResponse.onSuccess(Collections.emptyList());
+	}
+
+	@GetMapping("/type")
+	public ApiResponse<List<CardSummaryGetResponse>> getTypeCard(
+		@RequestParam(name = "type") FortuneType type,
+		@RequestParam(name = "sort") CardStatus sortStatus
+	) {
+
+		if (sortStatus == CardStatus.RECENT) {
+			return ApiResponse.onSuccess(cardQueryService.getRecentTypeCard(type));
+		}
+
+		if (sortStatus == CardStatus.POPULAR) {
+			return ApiResponse.onSuccess(cardQueryService.getPopularTypeCard(type));
 		}
 		return ApiResponse.onSuccess(Collections.emptyList());
 	}

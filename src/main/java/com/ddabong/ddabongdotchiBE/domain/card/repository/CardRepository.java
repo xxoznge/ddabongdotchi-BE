@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
+import com.ddabong.ddabongdotchiBE.domain.card.entity.FortuneType;
 
 public interface CardRepository extends JpaRepository<Card, Long> {
 
@@ -14,4 +15,9 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	List<Card> findAllByOrderByCreatedAtDesc();
 
 	List<Card> findAllByOrderByCommentCountDescCreatedAtDesc();
+
+	List<Card> findAllByTypeOrderByCreatedAtDesc(FortuneType type);
+
+	List<Card> findAllByTypeOrderByCommentCountDescCreatedAtDesc(FortuneType type);
+
 }
