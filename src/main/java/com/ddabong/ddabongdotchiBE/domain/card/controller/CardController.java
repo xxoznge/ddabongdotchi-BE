@@ -89,4 +89,9 @@ public class CardController {
 		}
 		return ApiResponse.onSuccess(Collections.emptyList());
 	}
+
+	@GetMapping("/top")
+	public ApiResponse<List<CardSummaryGetResponse>> getTopCardToday() {
+		return ApiResponse.onSuccess(cardQueryService.getTopCardToday());
+	}
 }

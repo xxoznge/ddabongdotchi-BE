@@ -1,5 +1,6 @@
 package com.ddabong.ddabongdotchiBE.domain.card.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -34,28 +35,36 @@ public class CardQueryService {
 	public List<CardSummaryGetResponse> getRecentCard() {
 		return cardRepository.findAllByOrderByCreatedAtDesc()
 			.stream()
-			.map(card -> CardSummaryGetResponse.from(card))
+			.map(CardSummaryGetResponse::from)
 			.toList();
 	}
 
 	public List<CardSummaryGetResponse> getPopularCard() {
 		return cardRepository.findAllByOrderByCommentCountDescCreatedAtDesc()
 			.stream()
-			.map(card -> CardSummaryGetResponse.from(card))
+			.map(CardSummaryGetResponse::from)
 			.toList();
 	}
 
 	public List<CardSummaryGetResponse> getRecentTypeCard(FortuneType fortuneType) {
 		return cardRepository.findAllByTypeOrderByCreatedAtDesc(fortuneType)
 			.stream()
-			.map(card -> CardSummaryGetResponse.from(card))
+			.map(CardSummaryGetResponse::from)
 			.toList();
 	}
 
 	public List<CardSummaryGetResponse> getPopularTypeCard(FortuneType fortuneType) {
 		return cardRepository.findAllByTypeOrderByCommentCountDescCreatedAtDesc(fortuneType)
 			.stream()
-			.map(card -> CardSummaryGetResponse.from(card))
+			.map(CardSummaryGetResponse::from)
+			.toList();
+	}
+
+	public List<CardSummaryGetResponse> getTopCardToday() {
+		LocalDateTime today = LocalDateTime.now().toLocalDate().atStartOfDay();
+		List<Card> top3CommentedCards = cardRepository.findTop3CommentedCardsToday(today);
+		return top3CommentedCards.stream()
+			.map(CardSummaryGetResponse::from)
 			.toList();
 	}
 }
