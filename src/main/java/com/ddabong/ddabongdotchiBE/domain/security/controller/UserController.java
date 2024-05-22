@@ -51,7 +51,11 @@ public class UserController {
 		return ApiResponse.onSuccess(jwtUtil.reissueToken(refreshToken));
 	}
 
-	@GetMapping("/test")
+	@GetMapping("/health")
+	public String healthCheck() {
+		return "test";
+	}
+
 	public ApiResponse<String> test(@UserResolver User user) {
 		return ApiResponse.onSuccess(user.getUsername());
 	}
