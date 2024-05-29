@@ -14,9 +14,9 @@ public record ReportCreateRequest(
 
 	public Report toEntity(User user, User target) {
 		return Report.builder()
-			.reportReason(reportReason)
 			.user(user)
 			.target(target)
+			.reportReason(reportReason)
 			.build();
 	}
 }
