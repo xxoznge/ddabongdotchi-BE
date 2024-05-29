@@ -9,6 +9,7 @@ import lombok.Builder;
 public record ReportCreateResponse(
 
 	Long id,
+	String username,
 	String target,
 	ReportReason reportReason
 ) {
@@ -16,7 +17,8 @@ public record ReportCreateResponse(
 	public static ReportCreateResponse from(Report report) {
 		return ReportCreateResponse.builder()
 			.id(report.getId())
-			.target(report.getTarget())
+			.username(report.getUser().getUsername())
+			.target(report.getTarget().getUsername())
 			.reportReason(report.getReportReason())
 			.build();
 	}

@@ -10,6 +10,9 @@ import com.ddabong.ddabongdotchiBE.domain.report.exception.ReportErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.report.exception.ReportExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.report.repository.ReportRepository;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.security.exception.UserErrorCode;
+import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
+import com.ddabong.ddabongdotchiBE.domain.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +24,20 @@ import lombok.extern.slf4j.Slf4j;
 public class ReportService {
 
 	private final ReportRepository reportRepository;
+	private final UserRepository userRepository;
 
-	public ReportCreateResponse createReport(User authUser, ReportCreateRequest request) {
-		if (reportRepository.existsByTarget(request.target())) {
+	public ReportCreateResponse createReport(User user, ReportCreateRequest request) {
+
+		if (user.getUsername().equals(request.target()))
+			throw new ReportExceptionHandler(ReportErrorCode.REPORT_ERROR);
+
+		final User target = userRepository.findByUsername(request.target())
+			.orElseThrow(() -> new UserExceptionHandler(UserErrorCode.USER_NOT_FOUND));
+
+		if (reportRepository.existsByUserAndTarget(user, target))
 			throw new ReportExceptionHandler(ReportErrorCode.USER_ALREADY_REPORTED);
-		}
 
-		Report report = reportRepository.save(request.toEntity());
+		Report report = reportRepository.save(request.toEntity(user, target));
 		return ReportCreateResponse.from(report);
 	}
 }

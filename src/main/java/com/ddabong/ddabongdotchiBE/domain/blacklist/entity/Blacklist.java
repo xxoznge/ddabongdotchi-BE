@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Entity
-@Table(name = "blacklist")
+@Table(name = "blacklists")
 public class Blacklist {
 
 	@Id
