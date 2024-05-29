@@ -1,11 +1,11 @@
 package com.ddabong.ddabongdotchiBE.domain.report.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
 import com.ddabong.ddabongdotchiBE.domain.report.dto.request.ReportCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.report.dto.response.ReportCreateResponse;
 import com.ddabong.ddabongdotchiBE.domain.report.service.ReportService;
@@ -24,10 +24,10 @@ public class ReportController {
 	private final ReportService reportService;
 
 	@PostMapping("")
-	public ResponseEntity<ReportCreateResponse> createReport(
+	public ApiResponse<ReportCreateResponse> createReport(
 		@UserResolver User authUser,
 		@RequestBody ReportCreateRequest request
 	) {
-		return ResponseEntity.ok(reportService.createReport(authUser, request));
+		return ApiResponse.onSuccess(reportService.createReport(authUser, request));
 	}
 }

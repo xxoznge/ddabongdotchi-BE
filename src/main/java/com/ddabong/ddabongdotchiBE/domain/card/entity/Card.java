@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Entity
-@Table(name = "card")
+@Table(name = "cards")
 public class Card extends BaseEntity {
 
 	@Id

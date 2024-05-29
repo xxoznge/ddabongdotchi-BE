@@ -12,6 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ReportErrorCode implements BaseErrorCode {
 
+	REPORT_ERROR(HttpStatus.BAD_REQUEST, "REPORT4000", "신고 관련 에러"),
 	USER_ALREADY_REPORTED(HttpStatus.CONFLICT, "REPORT4009", "이미 신고한 사용자입니다.");
 
 	private final HttpStatus httpStatus;
