@@ -40,4 +40,11 @@ public class BlacklistService {
 		Blacklist blacklist = blacklistRepository.save(request.toEntity(user, target));
 		return BlacklistCreateResponse.from(blacklist);
 	}
+
+	public void deleteBlacklist(User user, Long targetId) {
+		final Blacklist blacklist = blacklistRepository.findByUserAndTargetId(user, targetId)
+			.orElseThrow(() -> new BlacklistExceptionHandler(BlacklistErrorCode.BLACKLIST_NOT_FOUND));
+
+		blacklistRepository.delete(blacklist);
+	}
 }

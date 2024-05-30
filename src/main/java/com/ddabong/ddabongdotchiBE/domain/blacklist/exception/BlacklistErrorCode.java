@@ -13,6 +13,8 @@ import lombok.Getter;
 public enum BlacklistErrorCode implements BaseErrorCode {
 
 	BLACKLIST_ERROR(HttpStatus.BAD_REQUEST, "BLK4000", "차단 관련 에러"),
+	BLACKLIST_NOT_FOUND(HttpStatus.BAD_REQUEST, "BLK4001", "차단한 사용자가 아닙니다."),
+
 	BLACKLIST_ALREADY_REPORTED(HttpStatus.CONFLICT, "BLK4009", "이미 차단한 사용자입니다.");
 
 	private final HttpStatus httpStatus;

@@ -3,6 +3,9 @@ package com.ddabong.ddabongdotchiBE.domain.blacklist.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,5 +45,14 @@ public class BlacklistController {
 	@GetMapping("")
 	public ApiResponse<List<BlacklistGetResponse>> getBlacklist(@UserResolver User user) {
 		return ApiResponse.onSuccess(blacklistQueryService.getBlacklist(user));
+	}
+
+	@DeleteMapping("/{targetId}")
+	public ApiResponse<String> deleteBlacklist(
+		@UserResolver User user,
+		@PathVariable Long targetId
+	) {
+		blacklistService.deleteBlacklist(user, targetId);
+		return ApiResponse.onSuccess("삭제 성공");
 	}
 }

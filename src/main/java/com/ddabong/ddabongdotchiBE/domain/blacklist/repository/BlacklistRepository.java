@@ -2,6 +2,7 @@ package com.ddabong.ddabongdotchiBE.domain.blacklist.repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +14,6 @@ public interface BlacklistRepository extends JpaRepository<Blacklist, Long> {
 	List<Blacklist> findByUser(User user);
 
 	Boolean existsByUserAndTarget(User user, User target);
+
+	Optional<Blacklist> findByUserAndTargetId(User user, Long targetId);
 }
