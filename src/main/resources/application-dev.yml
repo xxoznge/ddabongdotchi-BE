@@ -8,6 +8,7 @@ server:
       force: true
 
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
@@ -21,16 +22,15 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
 
-  data:
-    redis:
-      host: ${REDIS_HOSTNAME}
-      port: ${REDIS_PORT}
-
 jwt:
   # HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용
   secret: ${SECURITY_KEY}
   token:
     access-expiration-time: 3600000
     refresh-expiration-time: 86400000
+
+redis:
+  host: ${REDIS_HOSTNAME}
+  port: ${REDIS_PORT}
 
 
