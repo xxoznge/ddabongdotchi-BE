@@ -5,10 +5,12 @@ import static com.ddabong.ddabongdotchiBE.domain.security.exception.UserErrorCod
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.security.dto.request.PasswordUpdateRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserJoinRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserUpdateRequest;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserImageUploadResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserJoinResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
@@ -36,6 +38,10 @@ public class UserService {
 			.orElseThrow(() -> new UserExceptionHandler(USER_NOT_FOUND));
 
 		user.deactivate();
+	}
+
+	public UserImageUploadResponse uploadProfileImage(String username, MultipartFile file) {
+		return null;
 	}
 
 	public void updatePassword(String username, PasswordUpdateRequest request) {
