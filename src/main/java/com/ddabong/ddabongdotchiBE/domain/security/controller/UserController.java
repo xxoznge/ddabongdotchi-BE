@@ -22,6 +22,7 @@ import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserDetailGetRes
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserJoinResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.security.jwt.dto.JwtDto;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.security.service.UserQueryService;
 import com.ddabong.ddabongdotchiBE.domain.security.service.UserService;
@@ -29,7 +30,6 @@ import com.ddabong.ddabongdotchiBE.domain.security.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import umc.springumc.security.jwt.dto.JwtDto;
 
 @Slf4j
 @RequiredArgsConstructor

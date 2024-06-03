@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.jwt.dto.JwtDto;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.userdetails.CustomUserDetails;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +28,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import umc.springumc.security.jwt.dto.JwtDto;
 import umc.springumc.security.jwt.util.HttpResponseUtil;
 
 @Slf4j

@@ -1,4 +1,4 @@
-package umc.springumc.security.jwt.dto;
+package com.ddabong.ddabongdotchiBE.domain.security.jwt.dto;
 
 public record JwtDto(
 	String accessToken,

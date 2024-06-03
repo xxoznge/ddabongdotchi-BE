@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.ddabong.ddabongdotchiBE.domain.security.jwt.dto.JwtDto;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.SecurityCustomException;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.TokenErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.userdetails.CustomUserDetails;
@@ -26,7 +27,6 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import umc.springumc.security.jwt.dto.JwtDto;
 
 @Slf4j
 @Component
