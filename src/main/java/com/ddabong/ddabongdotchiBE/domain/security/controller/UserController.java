@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
@@ -19,6 +22,7 @@ import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserJoinRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserUpdateRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.MyCardGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserDetailGetResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserImageUploadResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserJoinResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
@@ -49,6 +53,13 @@ public class UserController {
 	@GetMapping("/reissue")
 	public ApiResponse<JwtDto> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
 		return ApiResponse.onSuccess(jwtUtil.reissueToken(refreshToken));
+	}
+
+	@PostMapping(value = "/{username}/profileImage", consumes = "multipart/form-data")
+	public ApiResponse<UserImageUploadResponse> uploadProfileImage(
+		@PathVariable String username,
+		@RequestPart(name = "profileImage") MultipartFile file) {
+		return ApiResponse.onSuccess(userService.uploadProfileImage(username, file));
 	}
 
 	@GetMapping("/health")
