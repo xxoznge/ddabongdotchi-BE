@@ -100,11 +100,12 @@ public class UserController {
 		return ApiResponse.onSuccess(UserDetailGetResponse.from(authUser));
 	}
 
-	@PatchMapping(value = "/me")
+	@PatchMapping(value = "/me", consumes = "multipart/form-data")
 	public ApiResponse<UserUpdateResponse> updateMyUser(
 		@UserResolver User user,
-		@RequestBody @Valid UserUpdateRequest request) {
-		return ApiResponse.onSuccess(userService.updateMyUser(user, request));
+		@RequestPart @Valid UserUpdateRequest request,
+		@RequestPart(value = "profileImage") MultipartFile file) {
+		return ApiResponse.onSuccess(userService.updateMyUser(user, request, file));
 	}
 
 	@GetMapping("/me/card")

@@ -47,8 +47,9 @@ public class UserService {
 		user.updatePassword(encodedNewPassword);
 	}
 
-	public UserUpdateResponse updateMyUser(User user, UserUpdateRequest request) {
-		user.update(request.nickname(), request.description(), request.imageUrl());
+	public UserUpdateResponse updateMyUser(User user, UserUpdateRequest request, MultipartFile file) {
+		String imageUrl = s3Service.uploadImage(file);
+		user.update(request.nickname(), request.description(), imageUrl);
 		return UserUpdateResponse.from(user);
 	}
 
