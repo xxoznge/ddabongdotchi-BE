@@ -2,16 +2,23 @@ package com.ddabong.ddabongdotchiBE.domain.security.dto.response;
 
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 
+import lombok.Builder;
+
+@Builder
 public record UserDetailGetResponse(
+	Long id,
 	String username,
 	String nickname,
-	String description
+	String description,
+	String imageUrl
 ) {
 	public static UserDetailGetResponse from(User user) {
-		return new UserDetailGetResponse(
-			user.getUsername(),
-			user.getNickname(),
-			user.getDescription()
-		);
+		return UserDetailGetResponse.builder()
+			.id(user.getId())
+			.username(user.getUsername())
+			.nickname(user.getNickname())
+			.description(user.getDescription())
+			.imageUrl(user.getImageUrl())
+			.build();
 	}
 }

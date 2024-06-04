@@ -8,13 +8,15 @@ import lombok.Builder;
 public record UserUpdateResponse(
 	String username,
 	String nickname,
-	String description
+	String description,
+	String imageUrl
 ) {
 	public static UserUpdateResponse from(User user) {
 		return UserUpdateResponse.builder()
 			.username(user.getUsername())
 			.nickname(user.getNickname())
 			.description(user.getDescription())
+			.imageUrl(user.getImageUrl())
 			.build();
 	}
 }

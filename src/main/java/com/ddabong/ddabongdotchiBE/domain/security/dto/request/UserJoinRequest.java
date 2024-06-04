@@ -18,6 +18,7 @@ public record UserJoinRequest(
 	@NotBlank(message = "[ERROR] 소개글 입력은 필수 입니다.")
 	String description
 ) {
+
 	public User toEntity(String encodedPassword) {
 		return User.builder()
 			.username(username)

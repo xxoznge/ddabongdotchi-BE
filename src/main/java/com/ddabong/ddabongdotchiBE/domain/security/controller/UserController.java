@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -55,11 +54,11 @@ public class UserController {
 		return ApiResponse.onSuccess(jwtUtil.reissueToken(refreshToken));
 	}
 
-	@PostMapping(value = "/{username}/profileImage", consumes = "multipart/form-data")
+	@PostMapping(value = "/profileImage", consumes = "multipart/form-data")
 	public ApiResponse<UserImageUploadResponse> uploadProfileImage(
-		@PathVariable String username,
+		@UserResolver User user,
 		@RequestPart(name = "profileImage") MultipartFile file) {
-		return ApiResponse.onSuccess(userService.uploadProfileImage(username, file));
+		return ApiResponse.onSuccess(userService.uploadProfileImage(user, file));
 	}
 
 	@GetMapping("/health")
@@ -73,7 +72,7 @@ public class UserController {
 
 	@DeleteMapping("/me")
 	public ApiResponse<String> deleteUser(@UserResolver User user) {
-		userService.deactivate(user.getUsername());
+		userService.deactivate(user);
 		return ApiResponse.onSuccess("삭제 성공");
 	}
 
@@ -82,7 +81,7 @@ public class UserController {
 		@UserResolver User user,
 		@RequestBody @Valid PasswordUpdateRequest request
 	) {
-		userService.updatePassword(user.getUsername(), request);
+		userService.updatePassword(user, request);
 		return ApiResponse.onSuccess("비밀번호 변경 성공");
 	}
 
@@ -101,11 +100,12 @@ public class UserController {
 		return ApiResponse.onSuccess(UserDetailGetResponse.from(authUser));
 	}
 
-	@PatchMapping(value = "/me")
+	@PatchMapping(value = "/me", consumes = "multipart/form-data")
 	public ApiResponse<UserUpdateResponse> updateMyUser(
 		@UserResolver User user,
-		@RequestBody @Valid UserUpdateRequest request) {
-		return ApiResponse.onSuccess(userService.updateMyUser(user.getUsername(), request));
+		@RequestPart @Valid UserUpdateRequest request,
+		@RequestPart(value = "profileImage") MultipartFile file) {
+		return ApiResponse.onSuccess(userService.updateMyUser(user, request, file));
 	}
 
 	@GetMapping("/me/card")

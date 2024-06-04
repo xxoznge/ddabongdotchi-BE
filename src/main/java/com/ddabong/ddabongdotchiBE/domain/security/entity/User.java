@@ -48,6 +48,9 @@ public class User extends BaseEntity {
 	@Column(name = "user_description", nullable = false)
 	private String description;
 
+	@Column(name = "user_image_url")
+	private String imageUrl;
+
 	@Column(name = "user_roletype", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private RoleType roleType;
@@ -64,13 +67,18 @@ public class User extends BaseEntity {
 		this.userStatus = UserStatus.INACTIVE;
 	}
 
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	public void updatePassword(String password) {
 		this.password = password == null ? this.password : password;
 	}
 
-	public void update(String nickname, String description) {
+	public void update(String nickname, String description, String imageUrl) {
 		this.nickname = nickname == null ? this.nickname : nickname;
 		this.description = description == null ? this.description : description;
+		this.imageUrl = imageUrl == null ? this.imageUrl : imageUrl;
 	}
 }
 
