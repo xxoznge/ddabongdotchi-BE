@@ -10,6 +10,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.SecurityCustomException;
+import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.TokenErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.userdetails.CustomUserDetails;
 import com.ddabong.ddabongdotchiBE.domain.security.service.UserQueryService;
 
@@ -35,6 +37,12 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return userQueryService.findByUserName(((CustomUserDetails)userDetails).getUsername());
+
+		try {
+			return userQueryService.findByUserName(((CustomUserDetails)userDetails).getUsername());
+		} catch (ClassCastException e) {
+			// 로그아웃된 토큰
+			throw new SecurityCustomException(TokenErrorCode.UNAUTHORIZED);
+		}
 	}
 }
