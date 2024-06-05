@@ -2,6 +2,7 @@ package com.ddabong.ddabongdotchiBE.domain.security.jwt.filter;
 
 import java.io.IOException;
 
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,10 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// logout 처리된 accessToken
 			if (redisUtil.get(accessToken) != null && redisUtil.get(accessToken).equals("logout")) {
 				log.info("[*] Logout accessToken");
-				// TODO InsufficientAuthenticationException 예외 처리
-				log.info("==================");
 				filterChain.doFilter(request, response);
-				log.info("==================");
 				return;
 			}
 
@@ -61,14 +59,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		} catch (ExpiredJwtException e) {
 			log.warn("[*] case : accessToken Expired");
+			throw new SecurityCustomException(TokenErrorCode.TOKEN_EXPIRED);
+		} catch (InsufficientAuthenticationException e) {
+			log.warn("[*] case : FORBIDDEN");
+			throw new SecurityCustomException(TokenErrorCode.FORBIDDEN);
 		}
 	}
 
 	private void authenticateAccessToken(String accessToken) {
-
-		if (jwtUtil.isExpired(accessToken))
-			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
-
 		CustomUserDetails userDetails = new CustomUserDetails(
 			jwtUtil.getUsername(accessToken),
 			null,

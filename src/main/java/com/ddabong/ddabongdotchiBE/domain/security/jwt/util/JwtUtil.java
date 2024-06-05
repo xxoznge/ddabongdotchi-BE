@@ -15,9 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.dto.JwtDto;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.SecurityCustomException;
-import com.ddabong.ddabongdotchiBE.domain.security.jwt.exception.TokenErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.userdetails.CustomUserDetails;
-import com.ddabong.ddabongdotchiBE.domain.security.jwt.userdetails.CustomUserDetailsService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -32,49 +30,24 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class JwtUtil {
 
-	private final static String USERNAME = "username";
-	private final static String IS_STAFF = "USER";
-	private final CustomUserDetailsService customUserDetailsService;
+	private static final String USERNAME = "username";
+	private static final String IS_STAFF = "is_staff";
 	private final SecretKey secretKey;
 	private final Long accessExpMs;
 	private final Long refreshExpMs;
 	private final RedisUtil redisUtil;
 
 	public JwtUtil(
-		CustomUserDetailsService customUserDetailsService, @Value("${jwt.secret}") String secret,
+		@Value("${jwt.secret}") String secret,
 		@Value("${jwt.token.access-expiration-time}") Long access,
 		@Value("${jwt.token.refresh-expiration-time}") Long refresh,
 		RedisUtil redis) {
-		this.customUserDetailsService = customUserDetailsService;
 
 		secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
 			Jwts.SIG.HS256.key().build().getAlgorithm());
 		accessExpMs = access;
 		refreshExpMs = refresh;
 		redisUtil = redis;
-	}
-
-	public String getUsername(String token) throws SignatureException {
-		return Jwts.parser()
-			.setSigningKey(secretKey)
-			.build()
-			.parseClaimsJws(token)
-			.getBody()
-			.get(USERNAME, String.class);
-	}
-
-	public String isStaff(String token) throws SignatureException {
-		return (String)Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get(IS_STAFF);
-	}
-
-	public boolean isExpired(String token) throws SignatureException {
-		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration()
-			.before(new Date());
-	}
-
-	public long getExpTime(String token) {
-		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration()
-			.getTime();
 	}
 
 	public String createJwtAccessToken(CustomUserDetails customUserDetails) {
@@ -110,8 +83,8 @@ public class JwtUtil {
 			.signWith(secretKey)
 			.compact();
 
-		redisUtil.save(
-			customUserDetails.getUsername(),
+		redisUtil.saveAsValue(
+			customUserDetails.getUsername() + "_refresh_token",
 			refreshToken,
 			refreshExpMs,
 			TimeUnit.MILLISECONDS
@@ -119,15 +92,18 @@ public class JwtUtil {
 		return refreshToken;
 	}
 
-	public JwtDto reissueToken(String refreshToken) {
+	public JwtDto reissueToken(String refreshToken) throws SignatureException {
 		try {
 			validateRefreshToken(refreshToken);
 			log.info("[*] Valid RefreshToken");
 
 			CustomUserDetails tempCustomUserDetails = new CustomUserDetails(
-				getEmail(refreshToken),
+				// getId(refreshToken),
+				// getEmail(refreshToken),
+				getUsername(refreshToken),
 				null,
-				getAuthority(refreshToken)
+				// getAuthority(refreshToken)
+				isStaff(refreshToken)
 			);
 
 			return new JwtDto(
@@ -141,6 +117,46 @@ public class JwtUtil {
 		}
 	}
 
+	public String resolveAccessToken(HttpServletRequest request) {
+		String authorization = request.getHeader("Authorization");
+
+		if (authorization == null || !authorization.startsWith("Bearer ")) {
+			log.warn("[*] No Token in req");
+			return null;
+		}
+
+		log.info("[*] Token exists");
+		return authorization.split(" ")[1];
+	}
+
+	public void validateRefreshToken(String refreshToken) {
+		// refreshToken 유효성 검증
+		String username = getUsername(refreshToken);
+
+		//redis에 refreshToken 있는지 검증
+		if (!redisUtil.hasKey(username + "_refresh_token")) {
+			log.warn("[*] case : Invalid refreshToken");
+			throw new SecurityCustomException(INVALID_TOKEN);
+		}
+	}
+
+	public String getUsername(String token) {
+		return getClaims(token).get(USERNAME, String.class);
+	}
+
+	public String isStaff(String token) {
+		return getClaims(token).get(IS_STAFF, String.class);
+	}
+
+	public Boolean isExpired(String token) {
+		// 여기서 토큰 형식 이상한 것도 걸러짐
+		return getClaims(token).getExpiration().before(Date.from(Instant.now()));
+	}
+
+	public Long getExpTime(String token) {
+		return getClaims(token).getExpiration().getTime();
+	}
+
 	private Claims getClaims(String token) {
 		try {
 			return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
@@ -150,44 +166,4 @@ public class JwtUtil {
 			throw new SecurityCustomException(TOKEN_SIGNATURE_ERROR, e);
 		}
 	}
-
-	public Long getId(String token) {
-		return Long.parseLong(getClaims(token).getSubject());
-	}
-
-	public String getEmail(String token) {
-		return getClaims(token).get("email", String.class);
-	}
-
-	public String getAuthority(String token) {
-		return getClaims(token).get("auth", String.class);
-	}
-
-	public String resolveAccessToken(HttpServletRequest request) {
-		String authorization = request.getHeader("Authorization");
-
-		if (authorization == null || !authorization.startsWith("Bearer ")) {
-
-			log.warn("[*] No Token in req");
-
-			return null;
-		}
-
-		log.info("[*] Token exists");
-
-		return authorization.split(" ")[1];
-	}
-
-	public boolean validateRefreshToken(String refreshToken) {
-
-		// refreshToken validate
-		String username = getUsername(refreshToken);
-
-		//redis 확인
-		if (!redisUtil.hasKey(username) || isExpired(refreshToken)) {
-			throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
-		}
-		return true;
-	}
-
 }

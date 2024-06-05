@@ -35,7 +35,7 @@ public class CustomLogoutHandler implements LogoutHandler {
 			// 	throw new SecurityCustomException(TokenErrorCode.INVALID_TOKEN);
 			// }
 
-			redisUtil.save(
+			redisUtil.saveAsValue(
 				accessToken,
 				"logout",
 				jwtUtil.getExpTime(accessToken),
@@ -43,7 +43,7 @@ public class CustomLogoutHandler implements LogoutHandler {
 			);
 
 			redisUtil.delete(
-				jwtUtil.getUsername(accessToken)
+				jwtUtil.getUsername(accessToken) + "_refresh_token"
 			);
 
 		} catch (ExpiredJwtException e) {

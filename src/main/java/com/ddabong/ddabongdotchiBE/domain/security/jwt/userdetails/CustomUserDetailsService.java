@@ -29,9 +29,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		return new CustomUserDetails(user.getUsername(), user.getPassword(), user.getRoleType().toString());
 	}
-
-	public User userDetailsToUser(UserDetails userDetails) {
-		return userRepository.findByUsername(userDetails.getUsername())
-			.orElseThrow(() -> new UserExceptionHandler(UserErrorCode.USER_NOT_FOUND));
-	}
 }
