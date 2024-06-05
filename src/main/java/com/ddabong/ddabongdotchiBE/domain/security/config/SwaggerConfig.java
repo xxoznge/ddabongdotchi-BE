@@ -29,7 +29,7 @@ public class SwaggerConfig {
 
 	private Info getSwaggerInfo() {
 		License license = new License();
-		license.setName("{Application}");
+		license.setName("Ddabongdotchi");
 
 		return new Info()
 			.title("Ddabongdotchi API Document")

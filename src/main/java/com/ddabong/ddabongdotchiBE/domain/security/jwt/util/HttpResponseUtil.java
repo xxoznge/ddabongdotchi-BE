@@ -1,4 +1,4 @@
-package umc.springumc.security.jwt.util;
+package com.ddabong.ddabongdotchiBE.domain.security.jwt.util;
 
 import java.io.IOException;
 

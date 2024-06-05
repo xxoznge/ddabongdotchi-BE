@@ -23,12 +23,12 @@ import com.ddabong.ddabongdotchiBE.domain.security.jwt.filter.CustomLoginFilter;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.filter.CustomLogoutHandler;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.filter.JwtAuthenticationFilter;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.filter.JwtExceptionFilter;
+import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.HttpResponseUtil;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.RedisUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import umc.springumc.security.jwt.util.HttpResponseUtil;
 
 @Slf4j
 @Configuration

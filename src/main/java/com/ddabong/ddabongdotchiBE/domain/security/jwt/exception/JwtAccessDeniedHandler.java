@@ -8,11 +8,11 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
+import com.ddabong.ddabongdotchiBE.domain.security.jwt.util.HttpResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import umc.springumc.security.jwt.util.HttpResponseUtil;
 
 @Slf4j
 @Component
