@@ -9,7 +9,8 @@ public record UserJoinResponse(
 	Long id,
 	String username,
 	String nickname,
-	String description
+	String description,
+	String imageUrl
 ) {
 
 	public static UserJoinResponse from(User user) {
@@ -18,6 +19,7 @@ public record UserJoinResponse(
 			.username(user.getUsername())
 			.nickname(user.getNickname())
 			.description(user.getDescription())
+			.imageUrl(user.getImageUrl())
 			.build();
 	}
 }

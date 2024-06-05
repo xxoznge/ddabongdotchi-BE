@@ -21,7 +21,6 @@ import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserJoinRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.request.UserUpdateRequest;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.MyCardGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserDetailGetResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserImageUploadResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserJoinResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
@@ -44,21 +43,17 @@ public class UserController {
 	private final UserQueryService userQueryService;
 	private final JwtUtil jwtUtil;
 
-	@PostMapping("/join")
-	public ApiResponse<UserJoinResponse> join(@Valid @RequestBody UserJoinRequest request) {
-		return ApiResponse.onSuccess(userService.join(request));
+	@PostMapping(value = "/join", consumes = "multipart/form-data")
+	public ApiResponse<UserJoinResponse> join(
+		@Valid @RequestPart UserJoinRequest request,
+		@RequestPart(name = "profileImage") MultipartFile file
+	) {
+		return ApiResponse.onSuccess(userService.join(request, file));
 	}
 
 	@GetMapping("/reissue")
 	public ApiResponse<JwtDto> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
 		return ApiResponse.onSuccess(jwtUtil.reissueToken(refreshToken));
-	}
-
-	@PostMapping(value = "/profileImage", consumes = "multipart/form-data")
-	public ApiResponse<UserImageUploadResponse> uploadProfileImage(
-		@UserResolver User user,
-		@RequestPart(name = "profileImage") MultipartFile file) {
-		return ApiResponse.onSuccess(userService.uploadProfileImage(user, file));
 	}
 
 	@GetMapping("/health")
