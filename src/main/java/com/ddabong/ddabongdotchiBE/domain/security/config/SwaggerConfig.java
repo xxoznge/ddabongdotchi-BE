@@ -13,17 +13,18 @@ import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
+	// url : http://localhost:8080/swagger-ui/index.html#/
+	private static final String SECURITY_SCHEME_NAME = "bearerAuth";
 
-	// url: http://localhost:8080/swagger-ui/index.html#/
 	@Bean
-	public OpenAPI getOpenApi() {
+	public OpenAPI api() {
 		Server server = new Server().url("/");
 
 		return new OpenAPI()
-			.info(getSwaggerInfo())
+			.addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
 			.components(authSetting())
-			.addServersItem(server)
-			.addSecurityItem(new SecurityRequirement().addList("access-token"));
+			.info(getSwaggerInfo())
+			.addServersItem(server);
 	}
 
 	private Info getSwaggerInfo() {
@@ -31,17 +32,18 @@ public class SwaggerConfig {
 		license.setName("{Application}");
 
 		return new Info()
-			.title("{Application} API Document")
-			.description("This is {Application}'s API document.")
+			.title("Ddabongdotchi API Document")
+			.description("Ddabongdotchi의 API 문서 입니다.")
 			.version("v0.0.1")
 			.license(license);
 	}
 
 	private Components authSetting() {
+
 		return new Components()
-			.addSecuritySchemes(
-				"access-token",
+			.addSecuritySchemes(SECURITY_SCHEME_NAME,
 				new SecurityScheme()
+					.name(SECURITY_SCHEME_NAME)
 					.type(SecurityScheme.Type.HTTP)
 					.scheme("bearer")
 					.bearerFormat("JWT"));
