@@ -66,6 +66,7 @@ public class UserController {
 		return "test";
 	}
 
+	@GetMapping("/test")
 	public ApiResponse<String> test(@UserResolver User user) {
 		return ApiResponse.onSuccess(user.getUsername());
 	}
