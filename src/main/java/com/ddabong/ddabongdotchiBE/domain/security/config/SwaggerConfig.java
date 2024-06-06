@@ -28,11 +28,11 @@ public class SwaggerConfig {
 
 	private Info getSwaggerInfo() {
 		License license = new License();
-		license.setName("{Application}");
+		license.setName("Ddabongdotchi");
 
 		return new Info()
-			.title("{Application} API Document")
-			.description("This is {Application}'s API document.")
+			.title("Ddabongdotchi API Document")
+			.description("This is Ddabongdotchi's API document.")
 			.version("v0.0.1")
 			.license(license);
 	}
