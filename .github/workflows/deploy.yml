@@ -66,6 +66,14 @@ jobs:
           cp -r .platform deploy/.platform
           cd deploy && zip -r deploy.zip .
 
+      - name: Upload to S3
+        run: |
+          aws s3 cp deploy/deploy.zip s3://${{ secrets.S3_BUCKET }}/images/deploy-${{ steps.current-time.outputs.formattedTime }}.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v20
         with:
@@ -77,4 +85,5 @@ jobs:
           region: ap-northeast-2
           s3_bucket: elasticbeanstalk-ap-northeast-2-992382441903
           s3_key: deployments/deploy-${{ steps.current-time.outputs.formattedTime }}.zip
+          deployment_package: deploy/deploy.zip
           wait_for_deployment: false
