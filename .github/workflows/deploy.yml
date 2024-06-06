@@ -37,6 +37,10 @@ jobs:
           spring.datasource.username: ${{ secrets.DB_USER }}
           spring.datasource.password: ${{ secrets.DB_PW }}
           jwt.secret: ${{ secrets.SECURITY_KEY }}
+          cloud.aws.s3.bucket: ${{ secrets.S3_BUCKET }}
+          cloud.aws.s3.region.static: ${{ secrets.AWS_REGION }}
+          cloud.aws.s3.credentials.accessKey: ${{ secrets.S3_ACCESS_KEY }}
+          cloud.aws.s3.credentials.secretKey: ${{ secrets.S3_SECRET_KEY }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
