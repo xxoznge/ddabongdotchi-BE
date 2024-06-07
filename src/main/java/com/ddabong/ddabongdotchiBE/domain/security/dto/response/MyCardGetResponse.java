@@ -10,7 +10,8 @@ public record MyCardGetResponse(
 	String username,
 	Long cardId,
 	String title,
-	FortuneType type
+	FortuneType type,
+	String imageUrl
 
 ) {
 
@@ -20,6 +21,7 @@ public record MyCardGetResponse(
 			.cardId(card.getId())
 			.title(card.getTitle())
 			.type(card.getType())
+			.imageUrl(card.getImageUrl())
 			.build();
 	}
 }
