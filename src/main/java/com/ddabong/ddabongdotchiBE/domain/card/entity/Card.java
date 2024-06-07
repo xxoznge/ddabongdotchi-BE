@@ -54,6 +54,9 @@ public class Card extends BaseEntity {
 	@Column(name = "card_type", nullable = false)
 	private FortuneType type;
 
+	@Column(name = "card_image_url")
+	private String imageUrl;
+
 	@Column(name = "comment_count", nullable = false)
 	private long commentCount;
 
@@ -67,5 +70,9 @@ public class Card extends BaseEntity {
 
 	public void increaseCount() {
 		this.commentCount++;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

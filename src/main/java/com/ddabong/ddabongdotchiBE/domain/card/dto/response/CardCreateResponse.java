@@ -1,24 +1,30 @@
 package com.ddabong.ddabongdotchiBE.domain.card.dto.response;
 
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
+import com.ddabong.ddabongdotchiBE.domain.card.entity.FortuneType;
 
+import lombok.Builder;
+
+@Builder
 public record CardCreateResponse(
-	String username,
 	Long id,
+	String username,
 	String title,
 	String mood,
 	String content,
-	String type
+	FortuneType type,
+	String imageUrl
 ) {
 
 	public static CardCreateResponse from(Card card) {
-		return new CardCreateResponse(
-			card.getUser().getUsername(),
-			card.getId(),
-			card.getTitle(),
-			card.getMood(),
-			card.getContent(),
-			card.getType().name()
-		);
+		return CardCreateResponse.builder()
+			.id(card.getId())
+			.username(card.getUser().getUsername())
+			.title(card.getTitle())
+			.mood(card.getMood())
+			.content(card.getContent())
+			.type(card.getType())
+			.imageUrl(card.getImageUrl())
+			.build();
 	}
 }

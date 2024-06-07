@@ -14,7 +14,8 @@ public record CardSummaryGetResponse(
 	String title,
 	FortuneType type,
 	Long commentCount,
-	LocalDateTime createdAt
+	LocalDateTime createdAt,
+	String imageUrl
 ) {
 
 	public static CardSummaryGetResponse from(Card card) {
@@ -25,6 +26,7 @@ public record CardSummaryGetResponse(
 			.type(card.getType())
 			.commentCount(card.getCommentCount())
 			.createdAt(card.getCreatedAt())
+			.imageUrl(card.getImageUrl())
 			.build();
 	}
 }

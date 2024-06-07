@@ -2,6 +2,7 @@ package com.ddabong.ddabongdotchiBE.domain.card.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.card.dto.request.CardCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardCreateResponse;
@@ -9,6 +10,7 @@ import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.card.exception.CardErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.card.exception.CardExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.card.repository.CardRepository;
+import com.ddabong.ddabongdotchiBE.domain.s3.util.S3Service;
 import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
 
 import lombok.RequiredArgsConstructor;
@@ -21,12 +23,17 @@ import lombok.extern.slf4j.Slf4j;
 public class CardService {
 
 	private final CardRepository cardRepository;
+	private final S3Service s3Service;
 
 	public CardCreateResponse createCard(
 		User authUser,
-		CardCreateRequest request
+		CardCreateRequest request,
+		MultipartFile file
 	) {
+		String imageUrl = s3Service.uploadImage(file);
 		final Card card = cardRepository.save(request.toEntity(authUser));
+		card.setImageUrl(imageUrl);
+		cardRepository.save(card);
 		return CardCreateResponse.from(card);
 	}
 
