@@ -10,7 +10,8 @@ public record CommentGetResponse(
 	Long id,
 	String nickname,
 	String cardWriter,
-	FortuneType type
+	FortuneType type,
+	String imageUrl
 ) {
 
 	public static CommentGetResponse from(Comment comment) {
@@ -19,6 +20,7 @@ public record CommentGetResponse(
 			.nickname(comment.getUser().getNickname())
 			.cardWriter(comment.getCard().getUser().getNickname())
 			.type(comment.getCard().getType())
+			.imageUrl(comment.getUser().getImageUrl())
 			.build();
 	}
 }
