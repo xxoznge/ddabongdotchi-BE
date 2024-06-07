@@ -1,8 +1,16 @@
+server:
+  port: 8080
+
 spring:
   profiles:
-    active: local
+    group:
+      "local": "db, secret, s3, redis, security"
+      "prod": "db, secret, s3, redis, security"
+    default: local
 
   servlet:
     multipart:
-      max-file-size: 200MB
-      max-request-size: 200MB
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+
