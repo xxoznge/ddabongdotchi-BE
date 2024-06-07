@@ -13,7 +13,8 @@ public record CardDetailGetResponse(
 	String title,
 	String mood,
 	String content,
-	FortuneType type
+	FortuneType type,
+	String imageUrl
 ) {
 
 	public static CardDetailGetResponse from(Card card) {
@@ -25,6 +26,7 @@ public record CardDetailGetResponse(
 			.mood(card.getMood())
 			.content(card.getContent())
 			.type(card.getType())
+			.imageUrl(card.getImageUrl())
 			.build();
 	}
 }

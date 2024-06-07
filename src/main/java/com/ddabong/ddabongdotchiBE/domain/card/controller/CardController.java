@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.card.dto.request.CardCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardCreateResponse;
@@ -37,12 +38,13 @@ public class CardController {
 	private final CardService cardService;
 	private final CardQueryService cardQueryService;
 
-	@PostMapping()
+	@PostMapping(value = "", consumes = "multipart/form-data")
 	public ApiResponse<CardCreateResponse> createCard(
 		@UserResolver User authUser,
-		@RequestBody @Valid CardCreateRequest request
+		@RequestPart @Valid CardCreateRequest request,
+		@RequestPart(name = "cardImage") MultipartFile file
 	) {
-		return ApiResponse.onSuccess(cardService.createCard(authUser, request));
+		return ApiResponse.onSuccess(cardService.createCard(authUser, request, file));
 	}
 
 	@GetMapping("/{cardId}")
