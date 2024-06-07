@@ -9,7 +9,8 @@ public record BlacklistGetResponse(
 	Long id,
 	String username,
 	String target,
-	String targetNickname
+	String targetNickname,
+	String targetImageUrl
 ) {
 
 	public static BlacklistGetResponse from(Blacklist blacklist) {
@@ -18,6 +19,7 @@ public record BlacklistGetResponse(
 			.username(blacklist.getUser().getUsername())
 			.target(blacklist.getTarget().getUsername())
 			.targetNickname(blacklist.getTarget().getNickname())
+			.targetImageUrl(blacklist.getTarget().getImageUrl())
 			.build();
 	}
 }
