@@ -3,10 +3,7 @@ server:
 
 spring:
   profiles:
-    group:
-      "local": "db, secret, s3, redis, security"
-      "prod": "db, secret, s3, redis, security"
-    default: local
+    active: local
 
   servlet:
     multipart:
