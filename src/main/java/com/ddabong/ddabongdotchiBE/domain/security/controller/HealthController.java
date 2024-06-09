@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 public class HealthController {
-	@GetMapping("/health")
+	@GetMapping("/api/v1/user/health")
 	public String healthCheck() {
-		return "test";
+		return "OK";
 	}
 }
