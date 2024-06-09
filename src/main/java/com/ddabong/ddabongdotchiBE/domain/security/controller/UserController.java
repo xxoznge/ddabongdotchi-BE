@@ -103,4 +103,9 @@ public class UserController {
 	public ApiResponse<List<MyCardGetResponse>> getMyCards(@UserResolver User user) {
 		return ApiResponse.onSuccess(UserQueryService.getMyCard(user));
 	}
+
+	@GetMapping("/health")
+	public String healthCheck() {
+		return "OK";
+	}
 }
