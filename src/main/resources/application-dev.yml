@@ -42,6 +42,6 @@ cloud:
     region:
       static: ${AWS_REGION}
     credentials:
-      accessKey: ${S3_ACCESS_KEY}
-      secretKey: ${S3_SECRET_KEY}
+      accessKey: ${AWS_ACTION_ACCESS_KEY_ID}
+      secretKey: ${AWS_ACTION_SECRET_ACCESS_KEY}
 
