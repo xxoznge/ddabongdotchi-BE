@@ -41,7 +41,7 @@ public class CardController {
 	@PostMapping(value = "", consumes = "multipart/form-data")
 	public ApiResponse<CardCreateResponse> createCard(
 		@UserResolver User authUser,
-		@RequestPart @Valid CardCreateRequest request,
+		@RequestPart(value = "request") @Valid CardCreateRequest request,
 		@RequestPart(name = "cardImage") MultipartFile file
 	) {
 		return ApiResponse.onSuccess(cardService.createCard(authUser, request, file));
