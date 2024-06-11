@@ -31,17 +31,3 @@ jwt:
 redis:
   host: ${REDIS_HOSTNAME}
   port: ${REDIS_PORT}
-
-cloud:
-  aws:
-    s3:
-      bucket: ${S3_BUCKET}
-      folder: images/
-    stack:
-      auto: false
-    region:
-      static: ${AWS_REGION}
-    credentials:
-      accessKey: ${AWS_ACTION_ACCESS_KEY_ID}
-      secretKey: ${AWS_ACTION_SECRET_ACCESS_KEY}
-
