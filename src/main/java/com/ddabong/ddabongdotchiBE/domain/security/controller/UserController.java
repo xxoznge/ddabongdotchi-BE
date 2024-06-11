@@ -45,7 +45,7 @@ public class UserController {
 
 	@PostMapping(value = "/join", consumes = "multipart/form-data")
 	public ApiResponse<UserJoinResponse> join(
-		@Valid @RequestPart UserJoinRequest request,
+		@RequestPart(value = "request") @Valid UserJoinRequest request,
 		@RequestPart(name = "profileImage") MultipartFile file
 	) {
 		return ApiResponse.onSuccess(userService.join(request, file));
