@@ -29,7 +29,6 @@ public class CommentService {
 		User authUser,
 		CommentCreateRequest request
 	) {
-
 		Card card = cardRepository.findById(request.cardId())
 			.orElseThrow(() -> new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND));
 
