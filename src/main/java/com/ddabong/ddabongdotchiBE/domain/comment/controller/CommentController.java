@@ -1,6 +1,5 @@
 package com.ddabong.ddabongdotchiBE.domain.comment.controller;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,10 +41,6 @@ public class CommentController {
 
 	@GetMapping("/{cardId}")
 	public ApiResponse<List<CommentGetResponse>> getComment(@PathVariable Long cardId) {
-		List<CommentGetResponse> commentResponses = commentQueryService.getComment(cardId);
-		if (!commentResponses.isEmpty()) {
-			return ApiResponse.onSuccess(commentResponses);
-		}
-		return ApiResponse.onSuccess(Collections.emptyList());
+		return ApiResponse.onSuccess(commentQueryService.getComment(cardId));
 	}
 }

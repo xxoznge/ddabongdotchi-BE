@@ -20,7 +20,7 @@ public class CommentQueryService {
 	public List<CommentGetResponse> getComment(Long cardId) {
 		return commentRepository.findByCardIdOrderByCreatedAtDesc(cardId)
 			.stream()
-			.map(comment -> CommentGetResponse.from(comment))
+			.map(CommentGetResponse::from)
 			.toList();
 	}
 }
