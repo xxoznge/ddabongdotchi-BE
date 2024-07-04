@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ddabong.ddabongdotchiBE.domain.blacklist.dto.response.BlacklistGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.repository.BlacklistRepository;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

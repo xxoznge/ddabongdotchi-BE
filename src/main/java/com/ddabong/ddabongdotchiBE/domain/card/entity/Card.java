@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.ddabong.ddabongdotchiBE.domain.comment.entity.Comment;
 import com.ddabong.ddabongdotchiBE.domain.global.BaseEntity;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

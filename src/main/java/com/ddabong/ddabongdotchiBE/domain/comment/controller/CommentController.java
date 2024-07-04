@@ -16,8 +16,8 @@ import com.ddabong.ddabongdotchiBE.domain.comment.dto.response.CommentGetRespons
 import com.ddabong.ddabongdotchiBE.domain.comment.service.CommentQueryService;
 import com.ddabong.ddabongdotchiBE.domain.comment.service.CommentService;
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.annotation.UserResolver;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

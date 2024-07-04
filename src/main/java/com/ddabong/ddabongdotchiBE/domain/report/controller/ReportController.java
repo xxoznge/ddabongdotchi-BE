@@ -9,8 +9,8 @@ import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
 import com.ddabong.ddabongdotchiBE.domain.report.dto.request.ReportCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.report.dto.response.ReportCreateResponse;
 import com.ddabong.ddabongdotchiBE.domain.report.service.ReportService;
-import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.annotation.UserResolver;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

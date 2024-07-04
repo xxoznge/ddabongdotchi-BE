@@ -1,6 +1,6 @@
 package com.ddabong.ddabongdotchiBE.domain.report.entity;
 
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

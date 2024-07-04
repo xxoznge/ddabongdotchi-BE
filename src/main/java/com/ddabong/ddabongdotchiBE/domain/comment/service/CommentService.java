@@ -11,7 +11,7 @@ import com.ddabong.ddabongdotchiBE.domain.comment.dto.request.CommentCreateReque
 import com.ddabong.ddabongdotchiBE.domain.comment.dto.response.CommentCreateResponse;
 import com.ddabong.ddabongdotchiBE.domain.comment.entity.Comment;
 import com.ddabong.ddabongdotchiBE.domain.comment.repository.CommentRepository;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
