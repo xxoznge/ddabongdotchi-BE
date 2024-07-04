@@ -22,14 +22,10 @@ public class UserQueryService {
 	private final UserRepository userRepository;
 
 	public static List<MyCardGetResponse> getMyCard(User user) {
-		return user.getCards().stream()
+		return user.getCards()
+			.stream()
 			.map(MyCardGetResponse::from)
 			.toList();
-	}
-
-	public User findByUserName(String username) {
-		return userRepository.findByUsername(username)
-			.orElseThrow(() -> new UserExceptionHandler(USER_NOT_FOUND));
 	}
 
 	public Boolean checkUsername(String username) {
@@ -38,5 +34,10 @@ public class UserQueryService {
 
 	public Boolean checkNickname(String nickname) {
 		return userRepository.existsByNickname(nickname);
+	}
+
+	public User findByUserName(String username) {
+		return userRepository.findByUsername(username)
+			.orElseThrow(() -> new UserExceptionHandler(USER_NOT_FOUND));
 	}
 }

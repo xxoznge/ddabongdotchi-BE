@@ -5,15 +5,19 @@ import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 import com.ddabong.ddabongdotchiBE.domain.user.enums.UserStatus;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UserJoinRequest(
 	@NotBlank(message = "[ERROR] 아이디 입력은 필수 입니다.")
+	@Pattern(regexp = "[^\\p{InEmoticons}]", message = "[ERROR] 아이디에 이모티콘을 포함할 수 없습니다.")
 	String username,
-	@NotBlank(message = "[ERROR] 비밀번호 입력은 필수 입니다.")
-	@Size(min = 10, message = "[ERROR] 비밀번호는 최소 10자리 이이어야 합니다.")
+	@NotBlank(message = "[ERROR] 비밀번호 입력은 필수입니다.")
+	@Size(min = 10, max = 100, message = "[ERROR] 비밀번호는 최소 10자리 이상이어야 합니다.")
+	@Pattern(regexp = "[^\\p{InEmoticons}]", message = "[ERROR] 비밀번호에 이모티콘을 포함할 수 없습니다.")
 	String password,
-	@NotBlank(message = "[ERROR] 닉네임 입력은 필수 입니다.")
+	@NotBlank(message = "[ERROR] 닉네임 입력은 필수입니다.")
+	@Pattern(regexp = "^[가-힣]{2,7}$", message = "[ERROR] 닉네임은 한글로 2~7글자여야 합니다.")
 	String nickname,
 	@NotBlank(message = "[ERROR] 소개글 입력은 필수 입니다.")
 	String description

@@ -43,10 +43,6 @@ public class UserService {
 		return ReissueResponse.from(jwtUtil.reissueToken(refreshToken));
 	}
 
-	public void deactivate(User user) {
-		user.deactivate();
-	}
-
 	public void updatePassword(User user, PasswordUpdateRequest request) {
 		String encodedNewPassword = passwordEncoder.encode(request.password());
 		user.updatePassword(encodedNewPassword);
@@ -58,4 +54,7 @@ public class UserService {
 		return UserUpdateResponse.from(user);
 	}
 
+	public void deactivate(User user) {
+		user.deactivate();
+	}
 }

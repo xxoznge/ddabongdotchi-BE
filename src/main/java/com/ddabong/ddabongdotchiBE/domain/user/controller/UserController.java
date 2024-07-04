@@ -49,15 +49,19 @@ public class UserController {
 		return ApiResponse.onSuccess(userService.join(request, file));
 	}
 
+	@GetMapping("/username")
+	public ApiResponse<Boolean> checkUsername(@RequestParam String username) {
+		return ApiResponse.onSuccess(userQueryService.checkUsername(username));
+	}
+
+	@GetMapping("/nickname")
+	public ApiResponse<Boolean> checkNickname(@RequestParam String nickname) {
+		return ApiResponse.onSuccess(userQueryService.checkNickname(nickname));
+	}
+
 	@GetMapping("/reissue")
 	public ApiResponse<ReissueResponse> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
 		return ApiResponse.onSuccess(userService.reissueToken(refreshToken));
-	}
-
-	@DeleteMapping("/me")
-	public ApiResponse<String> deleteUser(@UserResolver User user) {
-		userService.deactivate(user);
-		return ApiResponse.onSuccess("삭제 성공");
 	}
 
 	@PatchMapping(value = "/password")
@@ -69,19 +73,14 @@ public class UserController {
 		return ApiResponse.onSuccess("비밀번호 변경 성공");
 	}
 
-	@GetMapping("/username")
-	public ApiResponse<Boolean> checkUsername(@RequestParam String username) {
-		return ApiResponse.onSuccess(userQueryService.checkUsername(username));
-	}
-
-	@GetMapping("/nickname")
-	public ApiResponse<Boolean> checkNickname(@RequestParam String nickname) {
-		return ApiResponse.onSuccess(userQueryService.checkNickname(nickname));
-	}
-
 	@GetMapping("/me")
 	public ApiResponse<UserDetailGetResponse> getMyUser(@UserResolver User authUser) {
 		return ApiResponse.onSuccess(UserDetailGetResponse.from(authUser));
+	}
+
+	@GetMapping("/me/card")
+	public ApiResponse<List<MyCardGetResponse>> getMyCards(@UserResolver User user) {
+		return ApiResponse.onSuccess(UserQueryService.getMyCard(user));
 	}
 
 	@PatchMapping(value = "/me", consumes = "multipart/form-data")
@@ -92,9 +91,10 @@ public class UserController {
 		return ApiResponse.onSuccess(userService.updateMyUser(user, request, file));
 	}
 
-	@GetMapping("/me/card")
-	public ApiResponse<List<MyCardGetResponse>> getMyCards(@UserResolver User user) {
-		return ApiResponse.onSuccess(UserQueryService.getMyCard(user));
+	@DeleteMapping("/me")
+	public ApiResponse<String> deleteUser(@UserResolver User user) {
+		userService.deactivate(user);
+		return ApiResponse.onSuccess("탈퇴 성공");
 	}
 
 	@GetMapping("/health")

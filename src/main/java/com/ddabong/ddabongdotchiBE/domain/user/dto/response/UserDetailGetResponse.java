@@ -12,6 +12,7 @@ public record UserDetailGetResponse(
 	String description,
 	String imageUrl
 ) {
+
 	public static UserDetailGetResponse from(User user) {
 		return UserDetailGetResponse.builder()
 			.id(user.getId())
