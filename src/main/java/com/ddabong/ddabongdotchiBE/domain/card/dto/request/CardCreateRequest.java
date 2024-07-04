@@ -23,6 +23,7 @@ public record CardCreateRequest(
 	public Card toEntity(
 		User cardUser
 	) {
+
 		return Card.builder()
 			.title(title)
 			.mood(mood)
