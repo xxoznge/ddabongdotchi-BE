@@ -1,6 +1,10 @@
 package com.ddabong.ddabongdotchiBE.domain.s3.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,13 +41,50 @@ public class FileUtils {
 
 	public static File convertToFile(MultipartFile multipartFile) {
 		String tempDir = System.getProperty("java.io.tmpdir");
-		File file = new File(tempDir + multipartFile.getOriginalFilename());
+		String originalFilename = multipartFile.getOriginalFilename();
+		String safeFilename = originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+		String uniqueFilename = UUID.randomUUID() + "_" + safeFilename;
+		File file = new File(tempDir, uniqueFilename);
+
+		log.info("Temp directory: {}", tempDir);
+		log.info("Original filename: {}", originalFilename);
+		log.info("Safe filename: {}", safeFilename);
+		log.info("Unique filename: {}", uniqueFilename);
 		log.info("File path: {}", file.getAbsolutePath());
+
+		// Check write permission
+		if (!Files.isWritable(Paths.get(tempDir))) {
+			throw new IllegalStateException("No write permission to the temporary directory: " + tempDir);
+		}
+
+		// Check disk space
+		long usableSpace = new File(tempDir).getUsableSpace();
+		long requiredSpace = multipartFile.getSize();
+		log.info("Usable space: {}, Required space: {}", usableSpace, requiredSpace);
+
+		if (usableSpace < requiredSpace) {
+			throw new IllegalStateException("Not enough disk space to store the file in the temporary directory");
+		}
+
 		try {
 			multipartFile.transferTo(file);
-		} catch (Exception e) {
+		} catch (IOException e) {
+			log.error("Failed to convert multipart file to file", e);
 			throw new IllegalArgumentException("Failed to convert multipart file to file", e);
 		}
+
 		return file;
 	}
+
+	// public static File convertToFile(MultipartFile multipartFile) {
+	// 	String tempDir = System.getProperty("java.io.tmpdir");
+	// 	File file = new File(tempDir + multipartFile.getOriginalFilename());
+	// 	log.info("File path: {}", file.getAbsolutePath());
+	// 	try {
+	// 		multipartFile.transferTo(file);
+	// 	} catch (Exception e) {
+	// 		throw new IllegalArgumentException("Failed to convert multipart file to file", e);
+	// 	}
+	// 	return file;
+	// }
 }
