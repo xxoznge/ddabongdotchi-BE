@@ -54,12 +54,9 @@ public class CardController {
 		return ApiResponse.onSuccess(cardQueryService.getCardDetail(cardId));
 	}
 
-	@DeleteMapping("/{cardId}")
-	public ApiResponse<String> deleteCard(
-		@UserResolver User authUser,
-		@PathVariable Long cardId) {
-		cardService.deleteCard(authUser, cardId);
-		return ApiResponse.onSuccess("삭제 성공");
+	@GetMapping("/top")
+	public ApiResponse<List<CardSummaryGetResponse>> getTopCardToday() {
+		return ApiResponse.onSuccess(cardQueryService.getTopCardToday());
 	}
 
 	@GetMapping("")
@@ -81,7 +78,6 @@ public class CardController {
 		@RequestParam(name = "type") FortuneType type,
 		@RequestParam(name = "sort") CardStatus sortStatus
 	) {
-
 		if (sortStatus == CardStatus.RECENT) {
 			return ApiResponse.onSuccess(cardQueryService.getRecentTypeCard(type));
 		}
@@ -92,8 +88,11 @@ public class CardController {
 		return ApiResponse.onSuccess(Collections.emptyList());
 	}
 
-	@GetMapping("/top")
-	public ApiResponse<List<CardSummaryGetResponse>> getTopCardToday() {
-		return ApiResponse.onSuccess(cardQueryService.getTopCardToday());
+	@DeleteMapping("/{cardId}")
+	public ApiResponse<String> deleteCard(
+		@UserResolver User authUser,
+		@PathVariable Long cardId) {
+		cardService.deleteCard(authUser, cardId);
+		return ApiResponse.onSuccess("삭제 성공");
 	}
 }
