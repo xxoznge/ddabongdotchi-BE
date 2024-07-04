@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ddabong.ddabongdotchiBE.domain.s3.util.S3Service;
+import com.ddabong.ddabongdotchiBE.domain.s3.S3Service;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.request.PasswordUpdateRequest;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.request.UserJoinRequest;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.request.UserUpdateRequest;

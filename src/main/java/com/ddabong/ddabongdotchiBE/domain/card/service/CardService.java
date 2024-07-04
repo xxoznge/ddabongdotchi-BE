@@ -10,7 +10,7 @@ import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.card.exception.CardErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.card.exception.CardExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.card.repository.CardRepository;
-import com.ddabong.ddabongdotchiBE.domain.s3.util.S3Service;
+import com.ddabong.ddabongdotchiBE.domain.s3.S3Service;
 import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
