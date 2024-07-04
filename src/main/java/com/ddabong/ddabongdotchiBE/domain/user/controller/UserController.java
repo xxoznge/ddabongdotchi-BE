@@ -20,12 +20,11 @@ import com.ddabong.ddabongdotchiBE.domain.user.dto.request.PasswordUpdateRequest
 import com.ddabong.ddabongdotchiBE.domain.user.dto.request.UserJoinRequest;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.request.UserUpdateRequest;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.response.MyCardGetResponse;
+import com.ddabong.ddabongdotchiBE.domain.user.dto.response.ReissueResponse;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.response.UserDetailGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.response.UserJoinResponse;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
-import com.ddabong.ddabongdotchiBE.domain.user.jwt.dto.JwtDto;
-import com.ddabong.ddabongdotchiBE.domain.user.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.user.service.UserQueryService;
 import com.ddabong.ddabongdotchiBE.domain.user.service.UserService;
 
@@ -41,7 +40,6 @@ public class UserController {
 
 	private final UserService userService;
 	private final UserQueryService userQueryService;
-	private final JwtUtil jwtUtil;
 
 	@PostMapping(value = "/join", consumes = "multipart/form-data")
 	public ApiResponse<UserJoinResponse> join(
@@ -52,13 +50,8 @@ public class UserController {
 	}
 
 	@GetMapping("/reissue")
-	public ApiResponse<JwtDto> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
-		return ApiResponse.onSuccess(jwtUtil.reissueToken(refreshToken));
-	}
-
-	@GetMapping("/test")
-	public ApiResponse<String> test(@UserResolver User user) {
-		return ApiResponse.onSuccess(user.getUsername());
+	public ApiResponse<ReissueResponse> reissueToken(@RequestHeader("RefreshToken") String refreshToken) {
+		return ApiResponse.onSuccess(userService.reissueToken(refreshToken));
 	}
 
 	@DeleteMapping("/me")

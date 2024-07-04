@@ -1,6 +1,6 @@
-package com.sponus.sponusbe.auth.dto;
+package com.ddabong.ddabongdotchiBE.domain.user.dto.response;
 
-import com.sponus.coreinfrasecurity.jwt.dto.JwtPair;
+import com.ddabong.ddabongdotchiBE.domain.user.jwt.dto.JwtDto;
 
 import lombok.Builder;
 
@@ -10,10 +10,10 @@ public record ReissueResponse(
 	String refreshToken
 ) {
 
-	public static ReissueResponse from(JwtPair jwtPair) {
+	public static ReissueResponse from(JwtDto jwtDto) {
 		return ReissueResponse.builder()
-			.accessToken(jwtPair.accessToken())
-			.refreshToken(jwtPair.refreshToken())
+			.accessToken(jwtDto.accessToken())
+			.refreshToken(jwtDto.refreshToken())
 			.build();
 	}
 }
