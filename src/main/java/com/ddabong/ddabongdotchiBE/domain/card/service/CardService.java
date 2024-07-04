@@ -11,7 +11,7 @@ import com.ddabong.ddabongdotchiBE.domain.card.exception.CardErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.card.exception.CardExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.card.repository.CardRepository;
 import com.ddabong.ddabongdotchiBE.domain.s3.util.S3Service;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -9,10 +9,10 @@ import com.ddabong.ddabongdotchiBE.domain.blacklist.entity.Blacklist;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.exception.BlacklistErrorCode;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.exception.BlacklistExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.repository.BlacklistRepository;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
-import com.ddabong.ddabongdotchiBE.domain.security.exception.UserErrorCode;
-import com.ddabong.ddabongdotchiBE.domain.security.exception.UserExceptionHandler;
-import com.ddabong.ddabongdotchiBE.domain.security.repository.UserRepository;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.exception.UserErrorCode;
+import com.ddabong.ddabongdotchiBE.domain.user.exception.UserExceptionHandler;
+import com.ddabong.ddabongdotchiBE.domain.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

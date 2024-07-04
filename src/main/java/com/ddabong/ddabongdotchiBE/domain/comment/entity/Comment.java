@@ -2,7 +2,7 @@ package com.ddabong.ddabongdotchiBE.domain.comment.entity;
 
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.global.BaseEntity;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;

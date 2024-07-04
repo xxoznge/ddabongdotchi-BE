@@ -22,8 +22,8 @@ import com.ddabong.ddabongdotchiBE.domain.card.entity.FortuneType;
 import com.ddabong.ddabongdotchiBE.domain.card.service.CardQueryService;
 import com.ddabong.ddabongdotchiBE.domain.card.service.CardService;
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
-import com.ddabong.ddabongdotchiBE.domain.security.annotation.UserResolver;
-import com.ddabong.ddabongdotchiBE.domain.security.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.annotation.UserResolver;
+import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
