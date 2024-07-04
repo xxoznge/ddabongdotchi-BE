@@ -1,4 +1,4 @@
-package com.ddabong.ddabongdotchiBE.domain.s3.util;
+package com.ddabong.ddabongdotchiBE.domain.s3;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.ddabong.ddabongdotchiBE.domain.s3.S3Config;
 import com.ddabong.ddabongdotchiBE.domain.s3.convert.webp.WebpConvertService;
+import com.ddabong.ddabongdotchiBE.domain.s3.util.FileUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

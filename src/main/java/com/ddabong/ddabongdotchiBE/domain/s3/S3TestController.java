@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
-import com.ddabong.ddabongdotchiBE.domain.s3.util.S3Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
