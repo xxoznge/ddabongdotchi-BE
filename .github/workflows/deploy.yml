@@ -46,6 +46,8 @@ jobs:
           cloud.aws.s3.bucket: ${{ secrets.S3_BUCKET }}
           cloud.aws.credentials.accessKey: ${{ secrets.S3_ACCESS_KEY }}
           cloud.aws.credentials.secretKey: ${{ secrets.S3_SECRET_KEY }}
+          redis.host: ${{ secrets.REDIS_HOSTNAME }}
+          redis.port: ${{ secrets.REDIS_PORT }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
