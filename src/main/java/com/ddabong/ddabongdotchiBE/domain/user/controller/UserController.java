@@ -44,7 +44,7 @@ public class UserController {
 	@PostMapping(value = "/join", consumes = "multipart/form-data")
 	public ApiResponse<UserJoinResponse> join(
 		@RequestPart(value = "request") @Valid UserJoinRequest request,
-		@RequestPart(name = "profileImage") MultipartFile file
+		@RequestPart(name = "profileImage", required = false) MultipartFile file
 	) {
 		return ApiResponse.onSuccess(userService.join(request, file));
 	}
@@ -87,7 +87,7 @@ public class UserController {
 	public ApiResponse<UserUpdateResponse> updateMyUser(
 		@UserResolver User user,
 		@RequestPart @Valid UserUpdateRequest request,
-		@RequestPart(value = "profileImage") MultipartFile file) {
+		@RequestPart(value = "profileImage", required = false) MultipartFile file) {
 		return ApiResponse.onSuccess(userService.updateMyUser(user, request, file));
 	}
 
