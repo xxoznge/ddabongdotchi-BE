@@ -31,7 +31,10 @@ public class UserService {
 	private final JwtUtil jwtUtil;
 
 	public UserJoinResponse join(UserJoinRequest request, MultipartFile file) {
-		String imageUrl = s3Service.uploadImage(file);
+		String imageUrl = null;
+		if (file != null && !file.isEmpty()) {
+			imageUrl = s3Service.uploadImage(file);
+		}
 		final User user = request.toEntity(passwordEncoder.encode(request.password()));
 		user.setImageUrl(imageUrl);
 		userRepository.save(user);
@@ -49,7 +52,10 @@ public class UserService {
 	}
 
 	public UserUpdateResponse updateMyUser(User user, UserUpdateRequest request, MultipartFile file) {
-		String imageUrl = s3Service.uploadImage(file);
+		String imageUrl = null;
+		if (file != null && !file.isEmpty()) {
+			imageUrl = s3Service.uploadImage(file);
+		}
 		user.update(request.nickname(), request.description(), imageUrl);
 		return UserUpdateResponse.from(user);
 	}
