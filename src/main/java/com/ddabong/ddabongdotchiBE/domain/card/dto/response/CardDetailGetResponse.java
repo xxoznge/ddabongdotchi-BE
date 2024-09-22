@@ -10,6 +10,7 @@ public record CardDetailGetResponse(
 	Long id,
 	String username,
 	String nickname,
+	String userImageUrl,
 	String title,
 	String mood,
 	String content,
@@ -22,6 +23,7 @@ public record CardDetailGetResponse(
 			.id(card.getId())
 			.username(card.getUser().getUsername())
 			.nickname(card.getUser().getNickname())
+			.userImageUrl(card.getUser().getImageUrl())
 			.title(card.getTitle())
 			.mood(card.getMood())
 			.content(card.getContent())
