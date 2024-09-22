@@ -11,6 +11,7 @@ import lombok.Builder;
 public record CardSummaryGetResponse(
 	Long id,
 	String nickname,
+	String userImageUrl,
 	String title,
 	FortuneType type,
 	Long commentCount,
@@ -22,6 +23,7 @@ public record CardSummaryGetResponse(
 		return CardSummaryGetResponse.builder()
 			.id(card.getId())
 			.nickname(card.getUser().getNickname())
+			.userImageUrl(card.getUser().getImageUrl())
 			.title(card.getTitle())
 			.type(card.getType())
 			.commentCount(card.getCommentCount())

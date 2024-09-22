@@ -66,7 +66,6 @@ public class CardController {
 		if (sortStatus == CardStatus.RECENT) {
 			return ApiResponse.onSuccess(cardQueryService.getRecentCard());
 		}
-
 		if (sortStatus == CardStatus.POPULAR) {
 			return ApiResponse.onSuccess(cardQueryService.getPopularCard());
 		}
@@ -81,7 +80,6 @@ public class CardController {
 		if (sortStatus == CardStatus.RECENT) {
 			return ApiResponse.onSuccess(cardQueryService.getRecentTypeCard(type));
 		}
-
 		if (sortStatus == CardStatus.POPULAR) {
 			return ApiResponse.onSuccess(cardQueryService.getPopularTypeCard(type));
 		}

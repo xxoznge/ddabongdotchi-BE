@@ -42,25 +42,16 @@ public class FileUtils {
 	public static File convertToFile(MultipartFile multipartFile) {
 		String tempDir = System.getProperty("java.io.tmpdir");
 		String originalFilename = multipartFile.getOriginalFilename();
-		String safeFilename = originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+		String safeFilename = originalFilename.replaceAll("[^a-zA-Z0-9.\\-]", "_");
 		String uniqueFilename = UUID.randomUUID() + "_" + safeFilename;
 		File file = new File(tempDir, uniqueFilename);
 
-		log.info("Temp directory: {}", tempDir);
-		log.info("Original filename: {}", originalFilename);
-		log.info("Safe filename: {}", safeFilename);
-		log.info("Unique filename: {}", uniqueFilename);
-		log.info("File path: {}", file.getAbsolutePath());
-
-		// Check write permission
 		if (!Files.isWritable(Paths.get(tempDir))) {
 			throw new IllegalStateException("No write permission to the temporary directory: " + tempDir);
 		}
 
-		// Check disk space
 		long usableSpace = new File(tempDir).getUsableSpace();
 		long requiredSpace = multipartFile.getSize();
-		log.info("Usable space: {}, Required space: {}", usableSpace, requiredSpace);
 
 		if (usableSpace < requiredSpace) {
 			throw new IllegalStateException("Not enough disk space to store the file in the temporary directory");
@@ -75,7 +66,6 @@ public class FileUtils {
 
 		return file;
 	}
-
 	// public static File convertToFile(MultipartFile multipartFile) {
 	// 	String tempDir = System.getProperty("java.io.tmpdir");
 	// 	File file = new File(tempDir + multipartFile.getOriginalFilename());

@@ -27,4 +27,6 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	@Query("SELECT c FROM Card c WHERE c.createdAt >= :today ORDER BY c.commentCount DESC LIMIT 3")
 	List<Card> findTop3CommentedCardsToday(@Param("today") LocalDateTime today);
 
+	@Query("SELECT c FROM Card c ORDER BY RAND() LIMIT 3")
+	List<Card> findRandom3Cards();
 }

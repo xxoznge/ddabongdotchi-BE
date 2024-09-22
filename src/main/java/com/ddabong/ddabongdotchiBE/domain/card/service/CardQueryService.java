@@ -63,7 +63,13 @@ public class CardQueryService {
 	public List<CardSummaryGetResponse> getTopCardToday() {
 		LocalDateTime today = LocalDateTime.now().toLocalDate().atStartOfDay();
 		List<Card> top3CommentedCards = cardRepository.findTop3CommentedCardsToday(today);
-		return top3CommentedCards.stream()
+
+		// 댓글 많은 카드가 없을 경우 바로 랜덤 3개 카드 반환
+		return top3CommentedCards.isEmpty()
+			? cardRepository.findRandom3Cards().stream()
+			.map(CardSummaryGetResponse::from)
+			.toList()
+			: top3CommentedCards.stream()
 			.map(CardSummaryGetResponse::from)
 			.toList();
 	}
