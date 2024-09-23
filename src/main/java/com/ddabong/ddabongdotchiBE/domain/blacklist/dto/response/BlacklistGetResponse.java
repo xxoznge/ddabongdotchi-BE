@@ -8,6 +8,7 @@ import lombok.Builder;
 public record BlacklistGetResponse(
 	Long id,
 	String username,
+	Long targetId,
 	String target,
 	String targetNickname,
 	String targetImageUrl
@@ -17,6 +18,7 @@ public record BlacklistGetResponse(
 		return BlacklistGetResponse.builder()
 			.id(blacklist.getId())
 			.username(blacklist.getUser().getUsername())
+			.targetId(blacklist.getTarget().getId())
 			.target(blacklist.getTarget().getUsername())
 			.targetNickname(blacklist.getTarget().getNickname())
 			.targetImageUrl(blacklist.getTarget().getImageUrl())

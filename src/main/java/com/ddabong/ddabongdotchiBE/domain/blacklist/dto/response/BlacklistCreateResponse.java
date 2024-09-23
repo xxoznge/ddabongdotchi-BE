@@ -9,16 +9,17 @@ public record BlacklistCreateResponse(
 
 	Long id,
 	String username,
-	String target,
-	Long targetId
+	Long targetId,
+	String target
+
 ) {
 
 	public static BlacklistCreateResponse from(Blacklist blacklist) {
 		return BlacklistCreateResponse.builder()
 			.id(blacklist.getId())
 			.username(blacklist.getUser().getUsername())
-			.target(blacklist.getTarget().getUsername())
 			.targetId(blacklist.getTarget().getId())
+			.target(blacklist.getTarget().getUsername())
 			.build();
 	}
 }
