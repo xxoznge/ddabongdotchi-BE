@@ -13,7 +13,8 @@ import lombok.Getter;
 public enum CardErrorCode implements BaseErrorCode {
 
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USR4000", "존재하지 않는 사용자입니다."),
-	CARD_NOT_FOUND(HttpStatus.NOT_FOUND, "CARD4040", "해당 카드가 존재하지 않습니다.");
+	CARD_NOT_FOUND(HttpStatus.NOT_FOUND, "CARD4040", "해당 카드가 존재하지 않습니다."),
+	UNAUTHORIZED_ACCESS(HttpStatus.FORBIDDEN, "CARD4030", "권한이 없습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String code;

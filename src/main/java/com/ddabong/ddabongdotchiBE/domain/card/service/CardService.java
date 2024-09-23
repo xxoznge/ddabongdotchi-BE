@@ -25,6 +25,7 @@ public class CardService {
 	private final CardRepository cardRepository;
 	private final S3Service s3Service;
 
+	/* 카드 작성 */
 	public CardCreateResponse createCard(
 		User authUser,
 		CardCreateRequest request,
@@ -37,11 +38,12 @@ public class CardService {
 		return CardCreateResponse.from(card);
 	}
 
+	/* 카드 삭제 */
 	public void deleteCard(User user, Long cardId) {
 		final Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND));
 		if (!card.getUser().getUsername().equals(user.getUsername())) {
-			throw new CardExceptionHandler(CardErrorCode.CARD_NOT_FOUND);
+			throw new CardExceptionHandler(CardErrorCode.UNAUTHORIZED_ACCESS);
 		}
 		cardRepository.delete(card);
 	}
