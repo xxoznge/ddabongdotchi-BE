@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
+import com.ddabong.ddabongdotchiBE.domain.user.enums.UserStatus;
 import com.ddabong.ddabongdotchiBE.domain.user.jwt.dto.JwtDto;
 import com.ddabong.ddabongdotchiBE.domain.user.jwt.userdetails.CustomUserDetails;
 import com.ddabong.ddabongdotchiBE.domain.user.jwt.util.HttpResponseUtil;
@@ -71,6 +72,11 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 		log.info("[*] Login Success");
 
 		CustomUserDetails customUserDetails = (CustomUserDetails)authentication.getPrincipal();
+
+		// 상태가 INACTIVE인 경우 예외 처리
+		if (customUserDetails.getUserStatus() == UserStatus.INACTIVE) {
+			throw new DisabledException("탈퇴한 사용자입니다."); // 예외 메시지 설정
+		}
 
 		log.info("[*] Login with " + customUserDetails.getUsername());
 

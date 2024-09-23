@@ -13,6 +13,9 @@ import com.ddabong.ddabongdotchiBE.domain.user.dto.response.ReissueResponse;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.response.UserJoinResponse;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.response.UserUpdateResponse;
 import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.enums.UserStatus;
+import com.ddabong.ddabongdotchiBE.domain.user.exception.UserErrorCode;
+import com.ddabong.ddabongdotchiBE.domain.user.exception.UserExceptionHandler;
 import com.ddabong.ddabongdotchiBE.domain.user.jwt.util.JwtUtil;
 import com.ddabong.ddabongdotchiBE.domain.user.repository.UserRepository;
 
@@ -61,6 +64,12 @@ public class UserService {
 	}
 
 	public void deactivate(User user) {
+		// 이미 탈퇴한 사용자일 경우 예외를 던짐
+		if (user.getUserStatus() == UserStatus.INACTIVE) {
+			throw new UserExceptionHandler(UserErrorCode.USER_ALREADY_INACTIVE);
+		}
+		// 탈퇴 처리
 		user.deactivate();
+		userRepository.save(user);
 	}
 }

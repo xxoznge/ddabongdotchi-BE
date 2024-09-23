@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.ddabong.ddabongdotchiBE.domain.user.enums.UserStatus;
 import com.ddabong.ddabongdotchiBE.domain.user.jwt.dto.JwtDto;
 import com.ddabong.ddabongdotchiBE.domain.user.jwt.exception.SecurityCustomException;
 import com.ddabong.ddabongdotchiBE.domain.user.jwt.userdetails.CustomUserDetails;
@@ -32,6 +33,7 @@ public class JwtUtil {
 
 	private static final String USERNAME = "username";
 	private static final String IS_STAFF = "is_staff";
+	private static final String USER_STATUS = "user_status";
 	private final SecretKey secretKey;
 	private final Long accessExpMs;
 	private final Long refreshExpMs;
@@ -103,7 +105,9 @@ public class JwtUtil {
 				getUsername(refreshToken),
 				null,
 				// getAuthority(refreshToken)
-				isStaff(refreshToken)
+				isStaff(refreshToken),
+				userStatus(refreshToken)
+
 			);
 
 			return new JwtDto(
@@ -146,6 +150,10 @@ public class JwtUtil {
 
 	public String isStaff(String token) {
 		return getClaims(token).get(IS_STAFF, String.class);
+	}
+
+	public UserStatus userStatus(String token) {
+		return getClaims(token).get(USER_STATUS, UserStatus.class);
 	}
 
 	public Boolean isExpired(String token) {
