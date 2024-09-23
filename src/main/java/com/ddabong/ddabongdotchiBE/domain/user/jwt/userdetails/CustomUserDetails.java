@@ -8,16 +8,23 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ddabong.ddabongdotchiBE.domain.user.enums.UserStatus;
+
+import lombok.Getter;
+
 public class CustomUserDetails implements UserDetails {
 
 	private final String email;
 	private final String password;
 	private final String isStaff;
+	@Getter
+	private final UserStatus userStatus;
 
-	public CustomUserDetails(String email, String password, String isStaff) {
+	public CustomUserDetails(String email, String password, String isStaff, UserStatus userStatus) {
 		this.email = email;
 		this.password = password;
 		this.isStaff = isStaff;
+		this.userStatus = userStatus;
 	}
 
 	public String getStaff() {

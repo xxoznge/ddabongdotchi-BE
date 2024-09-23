@@ -70,7 +70,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		CustomUserDetails userDetails = new CustomUserDetails(
 			jwtUtil.getUsername(accessToken),
 			null,
-			jwtUtil.isStaff(accessToken)
+			jwtUtil.isStaff(accessToken),
+			jwtUtil.userStatus(accessToken)
 		);
 
 		log.info("[*] Authority Registration");
