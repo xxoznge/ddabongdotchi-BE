@@ -38,6 +38,7 @@ public class CardController {
 	private final CardService cardService;
 	private final CardQueryService cardQueryService;
 
+	/* 카드 작성 */
 	@PostMapping(value = "", consumes = "multipart/form-data")
 	public ApiResponse<CardCreateResponse> createCard(
 		@UserResolver User authUser,
@@ -47,6 +48,46 @@ public class CardController {
 		return ApiResponse.onSuccess(cardService.createCard(authUser, request, file));
 	}
 
+	/* 오늘의 따봉도치 랭킹 조회 */
+	@GetMapping("/top")
+	public ApiResponse<List<CardSummaryGetResponse>> getTopCardToday() {
+		return ApiResponse.onSuccess(cardQueryService.getTopCardToday());
+	}
+
+	/* 전체 카드 목록 조회 */
+	@GetMapping("")
+	public ApiResponse<List<CardSummaryGetResponse>> getCard(
+		@RequestParam(name = "sort") CardStatus sortStatus
+	) {
+		// 최신순 조회
+		if (sortStatus == CardStatus.RECENT) {
+			return ApiResponse.onSuccess(cardQueryService.getRecentCard());
+		}
+		// 인기순 조회
+		if (sortStatus == CardStatus.POPULAR) {
+			return ApiResponse.onSuccess(cardQueryService.getPopularCard());
+		}
+		return ApiResponse.onSuccess(Collections.emptyList());
+	}
+
+	/* 테마 별 카드 목록 조회 */
+	@GetMapping("/type")
+	public ApiResponse<List<CardSummaryGetResponse>> getTypeCard(
+		@RequestParam(name = "type") FortuneType type,
+		@RequestParam(name = "sort") CardStatus sortStatus
+	) {
+		// 최신순 조회
+		if (sortStatus == CardStatus.RECENT) {
+			return ApiResponse.onSuccess(cardQueryService.getRecentTypeCard(type));
+		}
+		// 인기순 조회
+		if (sortStatus == CardStatus.POPULAR) {
+			return ApiResponse.onSuccess(cardQueryService.getPopularTypeCard(type));
+		}
+		return ApiResponse.onSuccess(Collections.emptyList());
+	}
+
+	/* 카드 상세 조회 */
 	@GetMapping("/{cardId}")
 	public ApiResponse<CardDetailGetResponse> getCardDetail(
 		@PathVariable Long cardId
@@ -54,38 +95,14 @@ public class CardController {
 		return ApiResponse.onSuccess(cardQueryService.getCardDetail(cardId));
 	}
 
-	@GetMapping("/top")
-	public ApiResponse<List<CardSummaryGetResponse>> getTopCardToday() {
-		return ApiResponse.onSuccess(cardQueryService.getTopCardToday());
+	/* 타입 별 카드 마지막 업로드 시간 조회 */
+	@GetMapping("/last")
+	public ApiResponse<String> getLastUploadTime(@RequestParam(name = "type") FortuneType type) {
+		String lastUploadTime = cardQueryService.getLastUploadTime(type);
+		return ApiResponse.onSuccess(lastUploadTime);
 	}
 
-	@GetMapping("")
-	public ApiResponse<List<CardSummaryGetResponse>> getCard(
-		@RequestParam(name = "sort") CardStatus sortStatus
-	) {
-		if (sortStatus == CardStatus.RECENT) {
-			return ApiResponse.onSuccess(cardQueryService.getRecentCard());
-		}
-		if (sortStatus == CardStatus.POPULAR) {
-			return ApiResponse.onSuccess(cardQueryService.getPopularCard());
-		}
-		return ApiResponse.onSuccess(Collections.emptyList());
-	}
-
-	@GetMapping("/type")
-	public ApiResponse<List<CardSummaryGetResponse>> getTypeCard(
-		@RequestParam(name = "type") FortuneType type,
-		@RequestParam(name = "sort") CardStatus sortStatus
-	) {
-		if (sortStatus == CardStatus.RECENT) {
-			return ApiResponse.onSuccess(cardQueryService.getRecentTypeCard(type));
-		}
-		if (sortStatus == CardStatus.POPULAR) {
-			return ApiResponse.onSuccess(cardQueryService.getPopularTypeCard(type));
-		}
-		return ApiResponse.onSuccess(Collections.emptyList());
-	}
-
+	/* 카드 삭제 */
 	@DeleteMapping("/{cardId}")
 	public ApiResponse<String> deleteCard(
 		@UserResolver User authUser,

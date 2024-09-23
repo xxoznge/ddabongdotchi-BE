@@ -1,5 +1,6 @@
 package com.ddabong.ddabongdotchiBE.domain.card.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,9 @@ public class Card extends BaseEntity {
 
 	@Column(name = "comment_count", nullable = false)
 	private long commentCount;
+
+	@Column(name = "last_upload_time")
+	private LocalDateTime lastUploadTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))

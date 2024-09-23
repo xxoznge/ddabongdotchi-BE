@@ -1,5 +1,7 @@
 package com.ddabong.ddabongdotchiBE.domain.card.dto.request;
 
+import java.time.LocalDateTime;
+
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.card.entity.FortuneType;
 import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
@@ -30,6 +32,7 @@ public record CardCreateRequest(
 			.content(content)
 			.type(FortuneType.valueOf(type))
 			.user(cardUser)
+			.lastUploadTime(LocalDateTime.now())
 			.build();
 	}
 }
