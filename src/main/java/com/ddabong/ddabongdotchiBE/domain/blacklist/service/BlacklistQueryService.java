@@ -20,6 +20,7 @@ public class BlacklistQueryService {
 
 	private final BlacklistRepository blacklistRepository;
 
+	/* 차단 목록 조회 */
 	public List<BlacklistGetResponse> getBlacklist(User user) {
 		return blacklistRepository.findByUser(user)
 			.stream()

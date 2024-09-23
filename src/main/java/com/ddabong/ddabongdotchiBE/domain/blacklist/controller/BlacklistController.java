@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ddabong.ddabongdotchiBE.domain.blacklist.dto.request.BlacklistCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.dto.response.BlacklistCreateResponse;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.dto.response.BlacklistGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.service.BlacklistQueryService;
@@ -31,23 +29,26 @@ public class BlacklistController {
 	private final BlacklistService blacklistService;
 	private final BlacklistQueryService blacklistQueryService;
 
+	/* 차단하기 */
 	@PostMapping("")
 	public ApiResponse<BlacklistCreateResponse> createBlacklist(
 		@UserResolver User authUser,
-		@RequestBody BlacklistCreateRequest request
+		@RequestParam Long targetId
 	) {
-		return ApiResponse.onSuccess(blacklistService.createBlacklist(authUser, request));
+		return ApiResponse.onSuccess(blacklistService.createBlacklist(authUser, targetId));
 	}
 
+	/* 차단 목록 조회 */
 	@GetMapping("")
 	public ApiResponse<List<BlacklistGetResponse>> getBlacklist(@UserResolver User user) {
 		return ApiResponse.onSuccess(blacklistQueryService.getBlacklist(user));
 	}
 
-	@DeleteMapping("/{targetId}")
+	/* 차단 해제 */
+	@DeleteMapping("")
 	public ApiResponse<String> deleteBlacklist(
 		@UserResolver User user,
-		@PathVariable Long targetId
+		@RequestParam Long targetId
 	) {
 		blacklistService.deleteBlacklist(user, targetId);
 		return ApiResponse.onSuccess("삭제 성공");
