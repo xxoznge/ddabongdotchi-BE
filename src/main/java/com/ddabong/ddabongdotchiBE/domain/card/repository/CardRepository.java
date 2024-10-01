@@ -40,9 +40,9 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
 	@Query(value = "SELECT c FROM Card c WHERE c.user.userStatus = :userStatus ORDER BY RAND()")
 	List<Card> findRandomPastCards(@Param("userStatus") UserStatus userStatus);
-	
+
 	// 타입 별 카드 마지막 업로드 시간 조회
-	@Query("SELECT c.createdAt FROM Card c WHERE c.type = :fortuneType AND c.user.userStatus = :userStatus ORDER BY c.createdAt DESC")
+	@Query("SELECT MAX(c.createdAt) FROM Card c WHERE c.type = :fortuneType AND c.user.userStatus = :userStatus")
 	LocalDateTime findLastUploadTimeByType(@Param("fortuneType") FortuneType fortuneType,
 		@Param("userStatus") UserStatus userStatus);
 }

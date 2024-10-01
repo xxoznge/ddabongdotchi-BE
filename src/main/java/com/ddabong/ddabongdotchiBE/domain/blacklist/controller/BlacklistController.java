@@ -47,10 +47,10 @@ public class BlacklistController {
 	/* 차단 해제 */
 	@DeleteMapping("")
 	public ApiResponse<String> deleteBlacklist(
-		@UserResolver User user,
+		@UserResolver User authUser,
 		@RequestParam String targetUsername
 	) {
-		blacklistService.deleteBlacklist(user, targetUsername);
+		blacklistService.deleteBlacklist(authUser, targetUsername);
 		return ApiResponse.onSuccess("삭제 성공");
 	}
 }

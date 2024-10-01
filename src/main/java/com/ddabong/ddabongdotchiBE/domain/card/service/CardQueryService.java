@@ -39,7 +39,6 @@ public class CardQueryService {
 	}
 
 	/* 오늘의 따봉도치 랭킹 조회 */
-	/* 오늘의 따봉도치 랭킹 조회 */
 	public List<CardSummaryGetResponse> getTopCardToday(User user) {
 		LocalDateTime today = LocalDateTime.now().toLocalDate().atStartOfDay();
 		List<Card> top3CommentedCards = cardRepository.findTop3CommentedCardsToday(today, UserStatus.ACTIVE);
@@ -142,6 +141,7 @@ public class CardQueryService {
 	/* 타입 별 카드 마지막 업로드 시간 조회 */
 	public String getLastUploadTime(FortuneType type) {
 		LocalDateTime lastUploadTime = cardRepository.findLastUploadTimeByType(type, UserStatus.ACTIVE);
+
 		if (lastUploadTime == null) {
 			return "마지막 업로드 시간이 없습니다.";
 		}
