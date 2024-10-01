@@ -25,6 +25,7 @@ public class BlacklistQueryService {
 	public List<BlacklistGetResponse> getBlacklist(User user) {
 		return blacklistRepository.findByUser_UserStatusAndUser(UserStatus.ACTIVE, user)
 			.stream()
+			.filter(blacklist -> blacklist.getTarget().getUserStatus() != UserStatus.INACTIVE) // 탈퇴한 사용자 제외
 			.map(BlacklistGetResponse::from)
 			.toList();
 	}
