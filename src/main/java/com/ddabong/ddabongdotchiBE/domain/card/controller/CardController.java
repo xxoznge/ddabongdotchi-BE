@@ -100,6 +100,14 @@ public class CardController {
 		return ApiResponse.onSuccess(cardQueryService.getCardDetail(authUser, cardId));
 	}
 
+	/* 타입 별 카드 마지막 업로드 시간 조회 */
+	@GetMapping("/last")
+	public ApiResponse<String> getLastUploadTime(
+		@RequestParam(name = "type") FortuneType type) {
+		String lastUploadTime = cardQueryService.getLastUploadTime(type);
+		return ApiResponse.onSuccess(lastUploadTime);
+	}
+
 	/* 카드 삭제 */
 	@DeleteMapping("/{cardId}")
 	public ApiResponse<String> deleteCard(
