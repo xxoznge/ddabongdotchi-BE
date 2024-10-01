@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.dto.response.BlacklistGetResponse;
 import com.ddabong.ddabongdotchiBE.domain.blacklist.repository.BlacklistRepository;
 import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
+import com.ddabong.ddabongdotchiBE.domain.user.enums.UserStatus;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class BlacklistQueryService {
 
 	/* 차단 목록 조회 */
 	public List<BlacklistGetResponse> getBlacklist(User user) {
-		return blacklistRepository.findByUser(user)
+		return blacklistRepository.findByUser_UserStatusAndUser(UserStatus.ACTIVE, user)
 			.stream()
 			.map(BlacklistGetResponse::from)
 			.toList();

@@ -14,6 +14,8 @@ public record CardSummaryGetResponse(
 	String userImageUrl,
 	String title,
 	FortuneType type,
+	String mood,
+	String content,
 	Long commentCount,
 	LocalDateTime createdAt,
 	String imageUrl
@@ -26,6 +28,8 @@ public record CardSummaryGetResponse(
 			.userImageUrl(card.getUser().getImageUrl())
 			.title(card.getTitle())
 			.type(card.getType())
+			.mood(card.getMood())
+			.content(card.getContent())
 			.commentCount(card.getCommentCount())
 			.createdAt(card.getCreatedAt())
 			.imageUrl(card.getImageUrl())

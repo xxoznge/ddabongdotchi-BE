@@ -40,7 +40,9 @@ public class CommentController {
 	}
 
 	@GetMapping("/{cardId}")
-	public ApiResponse<List<CommentGetResponse>> getComment(@PathVariable Long cardId) {
-		return ApiResponse.onSuccess(commentQueryService.getComment(cardId));
+	public ApiResponse<List<CommentGetResponse>> getComment(
+		@UserResolver User authUser,
+		@PathVariable Long cardId) {
+		return ApiResponse.onSuccess(commentQueryService.getComment(authUser, cardId));
 	}
 }

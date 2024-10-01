@@ -26,15 +26,15 @@ public class BlacklistService {
 	private final UserRepository userRepository;
 
 	/* 차단하기 */
-	public BlacklistCreateResponse createBlacklist(User user, Long targetId) {
+	public BlacklistCreateResponse createBlacklist(User user, String targetUsername) {
 
 		// 사용자가 자신의 ID를 차단하려는 경우 예외 발생
-		if (user.getId().equals(targetId)) {
+		if (user.getUsername().equals(targetUsername)) {
 			throw new BlacklistExceptionHandler(BlacklistErrorCode.BLACKLIST_ERROR);
 		}
 
 		// 대상 사용자를 userRepository 조회
-		User target = userRepository.findById(targetId)
+		User target = userRepository.findByUsername(targetUsername)
 			.orElseThrow(() -> new UserExceptionHandler(UserErrorCode.USER_NOT_FOUND));
 
 		// 이미 차단한 사용자인지 확인
@@ -54,8 +54,8 @@ public class BlacklistService {
 	}
 
 	/* 차단 해제 */
-	public void deleteBlacklist(User user, Long targetId) {
-		final Blacklist blacklist = blacklistRepository.findByUserAndTargetId(user, targetId)
+	public void deleteBlacklist(User user, String targetUsername) {
+		final Blacklist blacklist = blacklistRepository.findByUserAndTargetUsername(user, targetUsername)
 			.orElseThrow(() -> new BlacklistExceptionHandler(BlacklistErrorCode.BLACKLIST_NOT_FOUND));
 
 		blacklistRepository.delete(blacklist);

@@ -33,9 +33,9 @@ public class BlacklistController {
 	@PostMapping("")
 	public ApiResponse<BlacklistCreateResponse> createBlacklist(
 		@UserResolver User authUser,
-		@RequestParam Long targetId
+		@RequestParam String targetUsername
 	) {
-		return ApiResponse.onSuccess(blacklistService.createBlacklist(authUser, targetId));
+		return ApiResponse.onSuccess(blacklistService.createBlacklist(authUser, targetUsername));
 	}
 
 	/* 차단 목록 조회 */
@@ -48,9 +48,9 @@ public class BlacklistController {
 	@DeleteMapping("")
 	public ApiResponse<String> deleteBlacklist(
 		@UserResolver User user,
-		@RequestParam Long targetId
+		@RequestParam String targetUsername
 	) {
-		blacklistService.deleteBlacklist(user, targetId);
+		blacklistService.deleteBlacklist(user, targetUsername);
 		return ApiResponse.onSuccess("삭제 성공");
 	}
 }

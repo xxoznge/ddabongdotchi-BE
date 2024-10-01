@@ -1,7 +1,5 @@
 package com.ddabong.ddabongdotchiBE.domain.card.dto.request;
 
-import java.time.LocalDateTime;
-
 import com.ddabong.ddabongdotchiBE.domain.card.entity.Card;
 import com.ddabong.ddabongdotchiBE.domain.card.entity.FortuneType;
 import com.ddabong.ddabongdotchiBE.domain.user.entity.User;
@@ -11,14 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 public record CardCreateRequest(
 	@NotBlank(message = "[ERROR] 카드 제목 입력은 필수 입니다.")
 	String title,
-
-	@NotBlank(message = "[ERROR] 카드 컨디션 입력은 필수 입니다.")
 	String mood,
-
-	@NotBlank(message = "[ERROR] 카드 내용 입력은 필수 입니다.")
 	String content,
-
-	@NotBlank(message = "[ERROR] 카드 상태 입력은 필수 입니다.")
 	String type
 ) {
 
@@ -32,7 +24,6 @@ public record CardCreateRequest(
 			.content(content)
 			.type(FortuneType.valueOf(type))
 			.user(cardUser)
-			.lastUploadTime(LocalDateTime.now())
 			.build();
 	}
 }

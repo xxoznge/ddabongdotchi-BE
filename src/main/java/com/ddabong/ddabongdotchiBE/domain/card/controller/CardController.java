@@ -50,22 +50,25 @@ public class CardController {
 
 	/* 오늘의 따봉도치 랭킹 조회 */
 	@GetMapping("/top")
-	public ApiResponse<List<CardSummaryGetResponse>> getTopCardToday() {
-		return ApiResponse.onSuccess(cardQueryService.getTopCardToday());
+	public ApiResponse<List<CardSummaryGetResponse>> getTopCardToday(
+		@UserResolver User authUser
+	) {
+		return ApiResponse.onSuccess(cardQueryService.getTopCardToday(authUser));
 	}
 
 	/* 전체 카드 목록 조회 */
 	@GetMapping("")
 	public ApiResponse<List<CardSummaryGetResponse>> getCard(
+		@UserResolver User authUser,
 		@RequestParam(name = "sort") CardStatus sortStatus
 	) {
 		// 최신순 조회
 		if (sortStatus == CardStatus.RECENT) {
-			return ApiResponse.onSuccess(cardQueryService.getRecentCard());
+			return ApiResponse.onSuccess(cardQueryService.getRecentCard(authUser));
 		}
 		// 인기순 조회
 		if (sortStatus == CardStatus.POPULAR) {
-			return ApiResponse.onSuccess(cardQueryService.getPopularCard());
+			return ApiResponse.onSuccess(cardQueryService.getPopularCard(authUser));
 		}
 		return ApiResponse.onSuccess(Collections.emptyList());
 	}
@@ -73,16 +76,17 @@ public class CardController {
 	/* 테마 별 카드 목록 조회 */
 	@GetMapping("/type")
 	public ApiResponse<List<CardSummaryGetResponse>> getTypeCard(
+		@UserResolver User authUser,
 		@RequestParam(name = "type") FortuneType type,
 		@RequestParam(name = "sort") CardStatus sortStatus
 	) {
 		// 최신순 조회
 		if (sortStatus == CardStatus.RECENT) {
-			return ApiResponse.onSuccess(cardQueryService.getRecentTypeCard(type));
+			return ApiResponse.onSuccess(cardQueryService.getRecentTypeCard(authUser, type));
 		}
 		// 인기순 조회
 		if (sortStatus == CardStatus.POPULAR) {
-			return ApiResponse.onSuccess(cardQueryService.getPopularTypeCard(type));
+			return ApiResponse.onSuccess(cardQueryService.getPopularTypeCard(authUser, type));
 		}
 		return ApiResponse.onSuccess(Collections.emptyList());
 	}
@@ -90,16 +94,10 @@ public class CardController {
 	/* 카드 상세 조회 */
 	@GetMapping("/{cardId}")
 	public ApiResponse<CardDetailGetResponse> getCardDetail(
+		@UserResolver User authUser,
 		@PathVariable Long cardId
 	) {
-		return ApiResponse.onSuccess(cardQueryService.getCardDetail(cardId));
-	}
-
-	/* 타입 별 카드 마지막 업로드 시간 조회 */
-	@GetMapping("/last")
-	public ApiResponse<String> getLastUploadTime(@RequestParam(name = "type") FortuneType type) {
-		String lastUploadTime = cardQueryService.getLastUploadTime(type);
-		return ApiResponse.onSuccess(lastUploadTime);
+		return ApiResponse.onSuccess(cardQueryService.getCardDetail(authUser, cardId));
 	}
 
 	/* 카드 삭제 */
