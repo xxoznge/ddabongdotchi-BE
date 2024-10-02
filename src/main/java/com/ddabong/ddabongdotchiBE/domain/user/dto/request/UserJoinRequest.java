@@ -19,7 +19,9 @@ public record UserJoinRequest(
 	@NotBlank(message = "[ERROR] 닉네임 입력은 필수입니다.")
 	@Pattern(regexp = "^[가-힣]{2,7}$", message = "[ERROR] 닉네임은 한글로 2~7글자여야 합니다.")
 	String nickname,
-	String description
+	String description,
+
+	String imageUrl
 ) {
 
 	public User toEntity(String encodedPassword) {
@@ -28,6 +30,7 @@ public record UserJoinRequest(
 			.password(encodedPassword)
 			.nickname(nickname)
 			.description(description)
+			.imageUrl(imageUrl)
 			.roleType(RoleType.USER)
 			.userStatus(UserStatus.ACTIVE)
 			.build();

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
+import com.ddabong.ddabongdotchiBE.domain.s3.S3Service;
 import com.ddabong.ddabongdotchiBE.domain.user.annotation.UserResolver;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.request.PasswordUpdateRequest;
 import com.ddabong.ddabongdotchiBE.domain.user.dto.request.UserJoinRequest;
@@ -40,6 +41,7 @@ public class UserController {
 
 	private final UserService userService;
 	private final UserQueryService userQueryService;
+	private final S3Service s3Service;
 
 	@PostMapping(value = "/join", consumes = "multipart/form-data")
 	public ApiResponse<UserJoinResponse> join(
