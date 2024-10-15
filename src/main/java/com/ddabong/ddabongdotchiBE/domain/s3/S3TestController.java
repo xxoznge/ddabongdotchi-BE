@@ -5,9 +5,11 @@ import static com.ddabong.ddabongdotchiBE.domain.global.enums.ApiPath.*;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,6 +47,11 @@ public class S3TestController {
 	public ApiResponse<List<String>> uploadImages(
 		@RequestPart(value = "files", required = false) List<MultipartFile> files) {
 		return ApiResponse.onSuccess(s3Service.uploadFiles(files));
+	}
+
+	@GetMapping(value = "/getPreSigned")
+	public S3Response getPreSignedUrl(@RequestParam String fileName) {
+		return s3Service.getPreSignedUrl(fileName);
 	}
 
 }
