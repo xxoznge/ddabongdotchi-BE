@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.card.dto.request.CardCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardCreateResponse;
@@ -39,13 +38,12 @@ public class CardController {
 	private final CardQueryService cardQueryService;
 
 	/* 카드 작성 */
-	@PostMapping(value = "", consumes = "multipart/form-data")
+	@PostMapping(value = "")
 	public ApiResponse<CardCreateResponse> createCard(
 		@UserResolver User authUser,
-		@RequestPart(value = "request") @Valid CardCreateRequest request,
-		@RequestPart(name = "cardImage") MultipartFile file
+		@RequestPart(value = "request") @Valid CardCreateRequest request
 	) {
-		return ApiResponse.onSuccess(cardService.createCard(authUser, request, file));
+		return ApiResponse.onSuccess(cardService.createCard(authUser, request));
 	}
 
 	/* 오늘의 따봉도치 랭킹 조회 */

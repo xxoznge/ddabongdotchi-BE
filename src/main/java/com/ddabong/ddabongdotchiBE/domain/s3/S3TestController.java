@@ -53,5 +53,4 @@ public class S3TestController {
 	public S3Response getPreSignedUrl(@RequestParam String fileName) {
 		return s3Service.getPreSignedUrl(fileName);
 	}
-
 }

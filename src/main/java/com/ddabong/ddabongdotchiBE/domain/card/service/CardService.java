@@ -2,7 +2,6 @@ package com.ddabong.ddabongdotchiBE.domain.card.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.card.dto.request.CardCreateRequest;
 import com.ddabong.ddabongdotchiBE.domain.card.dto.response.CardCreateResponse;
@@ -28,12 +27,9 @@ public class CardService {
 	/* 카드 작성 */
 	public CardCreateResponse createCard(
 		User authUser,
-		CardCreateRequest request,
-		MultipartFile file
+		CardCreateRequest request
 	) {
-		String imageUrl = s3Service.uploadImage(file);
 		final Card card = cardRepository.save(request.toEntity(authUser));
-		card.setImageUrl(imageUrl);
 		cardRepository.save(card);
 		return CardCreateResponse.from(card);
 	}

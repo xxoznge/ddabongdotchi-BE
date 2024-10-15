@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
 import com.ddabong.ddabongdotchiBE.domain.s3.S3Service;
@@ -43,12 +42,11 @@ public class UserController {
 	private final UserQueryService userQueryService;
 	private final S3Service s3Service;
 
-	@PostMapping(value = "/join", consumes = "multipart/form-data")
+	@PostMapping(value = "/join")
 	public ApiResponse<UserJoinResponse> join(
-		@RequestPart(value = "request") @Valid UserJoinRequest request,
-		@RequestPart(name = "profileImage", required = false) MultipartFile file
+		@RequestPart(value = "request") @Valid UserJoinRequest request
 	) {
-		return ApiResponse.onSuccess(userService.join(request, file));
+		return ApiResponse.onSuccess(userService.join(request));
 	}
 
 	@GetMapping("/username")
@@ -85,12 +83,11 @@ public class UserController {
 		return ApiResponse.onSuccess(UserQueryService.getMyCard(user));
 	}
 
-	@PatchMapping(value = "/me", consumes = "multipart/form-data")
+	@PatchMapping(value = "/me")
 	public ApiResponse<UserUpdateResponse> updateMyUser(
 		@UserResolver User user,
-		@RequestPart @Valid UserUpdateRequest request,
-		@RequestPart(value = "profileImage", required = false) MultipartFile file) {
-		return ApiResponse.onSuccess(userService.updateMyUser(user, request, file));
+		@RequestPart @Valid UserUpdateRequest request) {
+		return ApiResponse.onSuccess(userService.updateMyUser(user, request));
 	}
 
 	@DeleteMapping("/me")

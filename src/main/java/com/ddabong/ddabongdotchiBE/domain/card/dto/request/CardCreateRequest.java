@@ -11,7 +11,8 @@ public record CardCreateRequest(
 	String title,
 	String mood,
 	String content,
-	String type
+	String type,
+	String imageUrl
 ) {
 
 	public Card toEntity(
@@ -23,6 +24,7 @@ public record CardCreateRequest(
 			.mood(mood)
 			.content(content)
 			.type(FortuneType.valueOf(type))
+			.imageUrl(imageUrl)
 			.user(cardUser)
 			.build();
 	}

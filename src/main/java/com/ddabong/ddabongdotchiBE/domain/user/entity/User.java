@@ -67,10 +67,6 @@ public class User extends BaseEntity {
 		this.userStatus = UserStatus.INACTIVE;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
 	public void updatePassword(String password) {
 		this.password = password == null ? this.password : password;
 	}
