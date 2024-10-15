@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ddabong.ddabongdotchiBE.domain.global.ApiResponse;
@@ -44,7 +43,7 @@ public class UserController {
 
 	@PostMapping(value = "/join")
 	public ApiResponse<UserJoinResponse> join(
-		@RequestPart(value = "request") @Valid UserJoinRequest request
+		@RequestBody @Valid UserJoinRequest request
 	) {
 		return ApiResponse.onSuccess(userService.join(request));
 	}
@@ -83,10 +82,10 @@ public class UserController {
 		return ApiResponse.onSuccess(UserQueryService.getMyCard(user));
 	}
 
-	@PatchMapping(value = "/me")
+	@PatchMapping("/me")
 	public ApiResponse<UserUpdateResponse> updateMyUser(
 		@UserResolver User user,
-		@RequestPart @Valid UserUpdateRequest request) {
+		@RequestBody @Valid UserUpdateRequest request) {
 		return ApiResponse.onSuccess(userService.updateMyUser(user, request));
 	}
 
