@@ -38,35 +38,43 @@ public class CardQueryService {
 			.toList();
 	}
 
-	/* 오늘의 따봉도치 랭킹 조회 */
 	public List<CardSummaryGetResponse> getTopCardToday(User user) {
 		LocalDateTime today = LocalDateTime.now().toLocalDate().atStartOfDay();
 		List<Card> top3CommentedCards = cardRepository.findTop3CommentedCardsToday(today, UserStatus.ACTIVE);
 
 		List<Long> blockedUser = getBlockedUser(user);
 
-		// 댓글 많은 카드가 없을 경우 랜덤 3개 카드 반환
+		// 댓글 많은 카드가 없을 경우 오늘 작성된 카드 중 랜덤 3개 반환
 		if (top3CommentedCards.isEmpty()) {
-			return cardRepository.findRandom3Cards(UserStatus.ACTIVE, today).stream()
+			List<Card> randomTodayCards = cardRepository.findRandom3Cards(UserStatus.ACTIVE, today).stream()
 				.filter(card -> !blockedUser.contains(card.getUser().getId()))
+				.toList();
+
+			// 오늘 작성된 카드가 없을 경우 과거 카드에서 3개 랜덤으로 가져오기
+			if (randomTodayCards.isEmpty()) {
+				return cardRepository.findRandomPastCards(UserStatus.ACTIVE).stream()
+					.filter(card -> !blockedUser.contains(card.getUser().getId()))
+					.limit(3)
+					.map(CardSummaryGetResponse::from)
+					.toList();
+			}
+
+			return randomTodayCards.stream()
 				.map(CardSummaryGetResponse::from)
 				.toList();
 		}
 
-		// 오늘 카드가 3개 미만일 경우 과거 카드에서 추가로 가져오기
+		// 오늘 댓글 많은 카드가 3개 미만일 경우 과거 카드에서 추가로 가져오기
 		if (top3CommentedCards.size() < 3) {
 			int needed = 3 - top3CommentedCards.size();
-			List<Card> pastCards = cardRepository.findRandomPastCards(UserStatus.ACTIVE);
-
-			// 추가 카드 필터링
-			List<Card> additionalCards = pastCards.stream()
+			List<Card> pastCards = cardRepository.findRandomPastCards(UserStatus.ACTIVE).stream()
 				.filter(card -> !blockedUser.contains(card.getUser().getId()))
 				.limit(needed)
 				.toList();
 
-			// 기존 카드와 추가 카드 합치기 후 반환
+			// 기존 댓글 많은 카드와 추가 카드를 합쳐서 반환
 			return Stream.concat(top3CommentedCards.stream().map(CardSummaryGetResponse::from),
-					additionalCards.stream().map(CardSummaryGetResponse::from))
+					pastCards.stream().map(CardSummaryGetResponse::from))
 				.toList();
 		}
 
